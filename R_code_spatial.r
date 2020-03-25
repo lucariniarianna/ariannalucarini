@@ -34,4 +34,41 @@ plot(meuse)
 #funzione spplot per dati spaziali
 spplot(meuse,"zinc")
 
+# R spatial
+#libreria sp
+library(sp)
+#dati da usare
+data(meuse)
+head(meuse)
+#coordinate del dataframe 
+coordinates(meuse)= ~x+y
+#spplot dei dati di zinco
+spplot(meuse,"zinc")
+# Exercise : spplot dei dati di rame
+head(meuse)
+spplot(meuse,"copper")
+# bubble per plottare i dati
+bubble(meuse,"zinc")
+# exercise: bubble del rame colorato di rosso
+bubble (meuse,"copper", col="red")
+
+#Esercizio per lavorare con dati propri
+#formaminifer (sofia), carbon capture (marco)
+foram <- c(10,20,35,55,67,80)
+carbon <- c(5,15,30,70,85,99)
+#plottiamo i dati per vedere se i dati sono +o- relazionati tra loro
+plot(foram, carbon, col="green", cex=2,pch=19)
+
+#Dati dall'esterno : covid19
+#Bisogna stabilire da quale cartella occorre prendere i dati 
+#files -> scegli cartella -> importa dati
+covid <- read.table("covid_agg.csv",head= TRUE)
+
+
+
+
+
+
+
+
 
