@@ -229,3 +229,55 @@ plot(difdvi, col=cldifdvi)
 plot(difdvilr50, col=cldifdvi)
  
 
+#setto la directory
+setwd("~/Documents/lab")
+load("/Users/ariannalucarini/Documents/lab/Teleril.RData")
+# controllo i dati che sono all'interno 
+ls()
+
+head (Tesi)
+attach(Tesi)
+summary(Tesi)
+
+Library (spatstat)
+ls()
+plot(dT)
+points(Tesippp, col ="green")
+
+head(Tesi)
+marks(Tesippp) <- Tesi$Species_richness
+interpol <- Smooth(Tesippp)
+plot(interpol)
+points(Tesippp, col="green")
+
+
+
+library(rgdal)
+sanmarino <- readOGR("San_Marino.shp")
+
+plot(sanmarino)
+plot(interpol, add=T)
+points(Tesippp, col="green")
+plot(sanmarino, add=T)
+
+
+#Esercizio : multiframe della densità e dell'interpolazione 
+
+par(mfrow=c(2,1))
+
+plot(Dt. main="Density of points")
+points(Tesippp, col="green")
+plot(interpol, add=T)
+points(Tesippp, col="green")
+
+#Esercizio : multiframe della densità e dell'interpolazione uno accanto all'altro
+par(mfrow=c(1,2))
+
+plot(Dt. main="Density of points")
+points(Tesippp, col="green")
+plot(interpol, add=T)
+points(Tesippp, col="green")
+
+
+
+
