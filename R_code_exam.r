@@ -14,24 +14,47 @@
 
 ### 1. R code first
 
-# PRIMO CODICE R ECOLOGIA DEL PAESAGGIO
-install.packages("sp")
-library(sp)
-data(meuse)
+#Prima di tutto occorre installare la nuova libreria, attraverso i pacchetti, e richiamarla (ogni volta che vogliamo richiamare
+#qualcosa che si trova esternamente a R occorrei usare le virgolette
+install.packages("sp") 
+library(sp) #sp ci fornisce classi e metodi per effettuare un'analisi spaziale
+
+#data serve per richiamare i dati contenuti nella libreria; meuse è il nostro dataset sulle concentrazioni di metalli pesanti
+#all'interno del terreno e una serie di variabili del suolo
+data("meuse")
+
+#scrivendo solo il nome del dataset siamo capace di vedere i dati contenuti in una tabella
 meuse
+
+#con il comando head possiamo vedere le prime 6 righe del nostro dataset
 head(meuse)
-name(meuse)
+
+#grazie al comando names siamo capace di vedere le variabili del nostro dataset
+names(meuse)
+
+#summary ci permette di visualizzare gli indici statistici più significativi rispetto tutti i dati del nostro dataset
 summary(meuse)
+
+#pairs è capace di creare un grafico che metta in correlazione le variabili del dataset
 pairs (meuse)
+
+# grazie a ~ possiamo creare un grafico, sempre con la funzione pairs, ma tenendo in considerazione solo le variabili da noi scelte
 pairs(~ cadmium + copper + lead , data = meuse)
 pairs(~ cadmium + copper + lead + zin , data = meuse)
+#un modo alternativo al precedente è quello di scrivere quali righe della colonna sono interessate dalle variabili prese da noi in 
+#considerazione
 pairs(meuse[,3:6])
+#con il comando col possiamo cambiare il colore di visualizzano del grafico
 pairs(meuse[,3:6],col="red")
+#con il comando pch possiamo scegliere i simboli da visualizzare
 pairs(meuse[,3:6],col="red", pch=19)
+#con il comando cex possiamo decidere la grandezza del testo
 pairs(meuse[,3:6],col="red", pch=19,cex=3)
+#con il comando main possiamo impostare un titolo al grafico
 pairs(meuse[,3:6],col="red", pch=19,cex=3,main="Primo pairs")
 pairs(meuse[,3:7],col="red", pch=19,cex=3,main="Primo pairs")
 
+#andiamo a riprendere delle funzioni esterne
 panel.correlations <- function(x, y, digits=1, prefix="", cex.cor)
 {
     usr <- par("usr"); on.exit(par(usr))
@@ -72,11 +95,10 @@ panel.histograms <- function(x, ...)
     rect(breaks[-nB], 0, breaks[-1], y, col="white", ...)
 }
 
+#queste funzioni esterne servono per creare dei grafici esteticamente migliori
 pairs(meuse[,3:6], lower.panel = panel.correlations, upper.panel = panel.smoothing, diag.panel = panel.histograms)
 pairs(meuse[,3:6],lower.panel=panel.smoothing,upper.panel=panel.correlations,diag.panel = panel.histograms)
-library(sp)
-data(meuse)
-head(meuse)
+
 
 ###FUNZIONE PLOT
 plot(meuse$cadmium,meuse$copper)
