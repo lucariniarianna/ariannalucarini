@@ -99,55 +99,87 @@ panel.histograms <- function(x, ...)
 pairs(meuse[,3:6], lower.panel = panel.correlations, upper.panel = panel.smoothing, diag.panel = panel.histograms)
 pairs(meuse[,3:6],lower.panel=panel.smoothing,upper.panel=panel.correlations,diag.panel = panel.histograms)
 
+#EXERCISE: mettere come lower panel lo smoothing, come diagonal apnel gli istogrammi e come upper panel le correlazioni 
+pairs(meuse[,3:6], lower.panel = panel.smoothing, upper.panel = panel.correlations, diag.panel = panel.histograms)
 
 ###FUNZIONE PLOT
+#tramite la funzione meuse $ possiamo creare un grafico prendendo in considerazione le colonne da noi scelte
 plot(meuse$cadmium,meuse$copper)
+
+#usiamo attach per fissare il dataframe meuse
 attach(meuse)
+
+#ora possiamo fare un plot senza dover scrivere ogni volta meuse perchè abbiamo usato la funzione attach
 plot(cadmium,copper, pch=17, col="green", main="primo.plot", xlab="cadmio",ylab="rame")
 
 
 
-########################################################################################
+#############################################################################################################################
 
-### R spatial : funzioni spaziali in Ecologia del paesaggio
+### 2. R spatial : funzioni spaziali in Ecologia del paesaggio
 
+#installo pacchetto che servirà nell'analisi spaziale
+install.packages("GGally")
 
 #richiamo il pacchetto library()
 library(sp)
+library(GGally)
+
 #richiamo dati
 data(meuse)
+
+#vediamo i dati
 meuse
+
+#vediamo solo le prime 6 righe di dati
 head(meuse)
-#plot cadmium e lead
-#alleghiamo il dataframe
+
+#usiamo attach per fissare il dataset
 attach(meuse)
+
+#plot che mette in correlazione cadmio e piombo
 plot(cadmium,lead,col="red",pch=19,cex=2)
-#esercizio n.1 fare un plot di rame e zinco con carattere "triangolo" e colore verde e grandezza del carattere non specificata
+
+#Exercise: fare un plot di rame e zinco con carattere "triangolo" e colore verde e grandezza del carattere non specificata
 plot(cadmium,zinc, col="green",pch=17,cex=1)
-#cambiare le etichette
+
+#cambiare le etichette tramite funzioni xlab e ylab
 plot(cadmium,zinc, col="green",pch=17,cex=1,xlab="rame", ylab="zinco")
-#multiframe o multipanel
+
+#con multiframe o multipanel possiamo mostrare più grafici insieme
 par(mfrow=c(1,2))
 plot(cadmium,lead,col="red",pch=19,cex=2)
 plot(copper,zinc,col="green",pch=17,cex=2)
-#invertiamo i grafici riga/colonna in colonna/riga
+
+#invertiamo i grafici riga/colonna in colonna/riga tramite (mfrow=c())
 par(mfrow=c(2,1))
 plot(cadmium,lead,col="red",pch=19,cex=2)
 plot(copper,zinc,col="green",pch=17,cex=2)
-#multiframe automatico
-install.packages("GGally")
-library(GGally)
-ggpairs(meuse[,3:6])
-#spatial
-head(meuse)
-coordinates(meuse)=~x+y
-plot(meuse)
-#funzione spplot per dati spaziali
-spplot(meuse,"zinc")
 
-# R spatial
-#libreria sp
+#richiamo pacchetto
+library(GGally)
+
+#la funzione ggpairs(meuse) è in grado di fare un grafico con tutte le variabili, in questo caso noi abbiamo specificato quali
+ggpairs(meuse[,3:6])
+
+
+#SPATIAL
+#diciamo ad R che nel nostro dataset sono presenti delle coordinate
+coordinates(meuse)=~x+y
+
+#grafico di meuse
+plot(meuse)
+
+#la funzione spplot viene usata per creare grafici per dati spaziali
+spplot(meuse,"zinc")
+#dal grafico si evince che le zone più inquinate saranno quelle interessate dai punti gialli
+
+
+# R spatial day 2
+
+#richiamo libreria sp
 library(sp)
+
 #dati da usare
 data(meuse)
 head(meuse)
