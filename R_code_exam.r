@@ -10,7 +10,8 @@
 8. R_code_snow.r   
 9. R_code_patches.r   
 
-# https://land.copernicus.vgt.vito.be/PDF/portal/Application.html
+#Copernicus Website
+https://land.copernicus.vgt.vito.be/PDF/portal/Application.html
 
 ### 1. R code first
 
@@ -418,15 +419,12 @@ points(covids)
 coastlines <- readOGR("ne_10m_coastline.shp")
 plot(coastlines, add=T)
 
- 
-
 # interpolazione del numero di casi
 cl5 <- colorRampPalette(c('cyan', 'purple', 'red')) (200) 
 plot(s, col=cl5, main="estimate of cases")
 points(covids)
 coastlines <- readOGR("ne_10m_coastline.shp")
 plot(coastlines, add=T)
-
 
 #Esercizio San Marino
 load("/Users/ariannalucarini/Documents/lab/Tesi.RData")
@@ -569,7 +567,6 @@ plotRGB(p224r63_2011,r=5,g=4,b=3,stretch="Lin")
 #nir nella componente blu
 plotRGB(p224r63_2011,r=6,g=5,b=4,stretch="Lin")
 
-
 # Day 2
 
 # scarico e/o richiamo i pacchetti che verranno utilizzati
@@ -707,26 +704,37 @@ load("/Users/ariannalucarini/Documents/lab/Teleril.RData")
 # controllo i dati che sono all'interno 
 ls()
 
+#richiamo pacchetti
+library(spatstat)
+library(rgdal)
+
+#prime sei righe dei nostri dati
 head (Tesi)
+
+#riferisco quali dati utilizzare
 attach(Tesi)
+
+#vedo il sommario dei dati
 summary(Tesi)
-
-Library (spatstat)
 ls()
-plot(dT)
-points(Tesippp, col ="green")
 
-head(Tesi)
+tesip <- ppp(Longitude,Latitude,c(12.41,12.47),c(43.90,43.95))
+
+dT <- density(tesip)
+
+#faccio grafico
+plot(dT)
+
+#la funzione marks va ad associare le variabili al point pattern
 marks(Tesippp) <- Tesi$Species_richness
+
+#Smooth serve per dare continuità alla mappa anche dove i valori non ci sono (fa una stima)
 interpol <- Smooth(Tesippp)
 plot(interpol)
 points(Tesippp, col="green")
 
-
-
-library(rgdal)
+#metto i confini di San Marino e faccio il plot
 sanmarino <- readOGR("San_Marino.shp")
-
 plot(sanmarino)
 plot(interpol, add=T)
 points(Tesippp, col="green")
@@ -765,27 +773,30 @@ library(RStoolbox)
 p224r63_2011 <- brick("p224r63_2011_masked.grd")
 plotRGB(p224r63_2011,r=4,g=3,b=2,stretch="Lin")
 
+#con questa funzione è possibile far leggere le immagini al programma
 defor1 <- brick("defor1_.jpg") # .png for Mac
 defor2 <- brick("defor2_.jpg")
 
+#guardo le caratteristiche dell'immagine
 defor1
 # names: defor1_.1, defor1_.2, defor1_.3 
 # defor1_.1 = NIR
 # defor1_.2 = red
 # defor1_.3 = green
 
+#plot RGB
 plotRGB(defor1, r=1, g=2, b=3, stretch="Lin")
 
 # Exercise plot della seconda data
 plotRGB(defor2, r=1, g=2, b=3, stretch="Lin")
 
+#creo un multiframe per vedere i due plot a confronto
 par(mfrow=c(2,1))
 plotRGB(defor1, r=1, g=2, b=3, stretch="Lin")
 plotRGB(defor2, r=1, g=2, b=3, stretch="Lin")
 
-# classificazione non supervisionata
+# classificazione non supervisionata, ovvero, non si specificano le classi (si utilizza la libreria RStoolbox
 d1c <- unsuperClass(defor1, nClasses=2)
-
 plot(d1c$map)
 cl <- colorRampPalette(c('black','green'))(100) # 
 plot(d1c$map, col=cl)
@@ -804,7 +815,7 @@ plot(d1c$map, col=cl)
 d2c <- unsuperClass(defor2, nClasses=2)
 plot(d2c$map, col=cl)
 
-# plot delle due mappe ottenute
+# plot delle due mappe ottenute per confrontarle
 par(mfrow=c(2,1))
 plot(d1c$map, col=cl)
 plot(d2c$map, col=cl)
@@ -813,6 +824,7 @@ par(mfrow=c(1,2))
 plot(d1c$map, col=cl)
 plot(d2c$map, col=cl)
 
+#frequenza delle due mappe
 freq(d1c$map)
 # aree aperte = 37039
 # foresta = 304253
@@ -821,6 +833,7 @@ totd1 <- 37039 + 304253
 totd1
 # 341292
 
+#la percentuale di foresta è uguale alla frequenza della prima mappa x 100 diviso il totale
 percent1 <- freq(d1c$map) * 100 / totd1
 
 # percentuali
@@ -844,39 +857,55 @@ percent2 <- freq(d2c$map) * 100 / totd2
 # foreste: 51.8
 
 #-----
+#imposto la directory
+setwd("~/Documents/lab")
+
+#installo e richiamo pacchetto
+install.packages("gridExtra")
+library(gridExtra)
+
+#richiamiamo il file salvato:
+load("Analisi_multitemporale.R")
 
 cover <- c("Agriculture","Forest")
 before <- c(10.9,89.1)
 after <- c(48.2,51.8)
 
+#visualizzo l'output
 output <- data.frame(cover,before,after)
 output
 
-
+#richiamo libreria
 library(ggplot2)
+
+#sulle ordinate avremo il valore della prima
 p1<-ggplot(output, aes(x=cover, y=before, color=cover)) + geom_bar(stat="identity", fill="white")
-# 
+
+#plot del dopo deforestazione, sempre sulle y avremo la percentuale del dopo
 p2<-ggplot(output, aes(x=cover, y=after, color=cover)) + geom_bar(stat="identity", fill="white")
 
-# https://cran.r-project.org/web/packages/egg/vignettes/Ecosystem.html
-install.packages("gridExtra")
-library(gridExtra)
-
-grid.arrange(p1, p2, nrow = 1) # this needs griExtra
+#questa funzione è in grado di prendere diversi plot e visualizzarli insieme all'interno di uno stesso grafico
+grid.arrange(p1, p2, nrow = 1)
 
 
-#day 2
+#day 2  Nuova Analisi Multitemporale
+
 setwd("~/Documents/lab")
 load("defor.RData")
 ls()
+install.packages("gridExtra")
+library(gridExtra)
+install.packages("ggplot2")
+library(ggplot2)
 library(raster)
+
+
 par(mfrow=c(1,2))
 cl <- colorRampPalette(c("black","green"))(100)
 plot(d1c$map, col=cl)
 plot(d2c$map, col=cl)
 ls()
-install.packages("ggplot2")
-library(ggplot2)
+
 ggplot(output, aes(x=cover,y=before, color=cover))
 geom_bar(stat="identity", fill="white")
 
@@ -885,32 +914,32 @@ ggplot(output, aes(x=cover, y=after, color=cover)) + geom_bar(stat="identity", f
 
 dev.off()
 
-install.packages("gridExtra")
-library(gridExtra)
-
 #histograms of the% cover before deforestation
 grafico1 <- ggplot(output, aes(x=cover, y=before, color=cover)) + 
 geom_bar(stat="identity", fill="white")
 
- grafico2 <- ggplot(output, aes(x=cover, y=after, color=cover)) + 
+grafico2 <- ggplot(output, aes(x=cover, y=after, color=cover)) + 
 geom_bar(stat="identity", fill="white")
 
 #Exercise.  #grid.arrange per mettere due grafici uno accanto all'altro
 grid.arrange(grafico1,grafico2,nrow=1)
 
-#######################################################################
+#############################################################################################################################
 
-#R code for analysing NO" data from ESA - January to March 2020
+###6. R code for analysing NO" data from ESA - January to March 2020
 
 setwd("~/Documents/lab")
 
 #richiamare library
 library(raster)
 
+#richiamo immagini in formato png perchè utilizzo mac
 EN01 <- raster("EN_0001.png")
+
+#visualizzo il plot
 plot(EN01)
 
-
+#per importare tutte le immaggini posso utilizzare o stack che le importa tutte dentro EN oppure brick per caricarle una alla volta
 
 # EN <- stack(c("EN_0001.png","EN_0002.png","EN_0003.png","EN_0004.png","EN_0005.png","EN_0006.png","EN_0007.png","EN_0008.png","EN_0009.png","EN_0010.png","EN_0011.png","EN_0012.png","EN_0013.png"))
 
@@ -932,8 +961,7 @@ plot(EN01)
 # brick
 # writeRaster(EN01[[3]], "snow2000r.tif")
 
-
-# use .red to export the data: prepare the set
+#utilizzo raster per importare le immagini
 EN01 <- raster("EN_0001.png")
 EN02 <- raster("EN_0002.png")
 EN03 <- raster("EN_0003.png")
@@ -948,22 +976,25 @@ EN11 <- raster("EN_0011.png")
 EN12 <- raster("EN_0012.png")
 EN13 <- raster("EN_0013.png")
 
+#creo la mia color ramp palette
 cl <- colorRampPalette(c('red','orange','yellow'))(100) # 
 
 par(mfrow=c(1,2))
 plot(EN01, col=cl)
 plot(EN13, col=cl)
 
-# close the window
+# chiudo la finestra
+dev.off()
+#il monossido di azoto è andato diminuendo
 
+#vedo la differenza tra EN13 e EN01
 difno2 <- EN13-EN01
 cldif <- colorRampPalette(c('blue','black','yellow'))(100) # 
 plot(difno2, col=cldif)
 
 cl <- colorRampPalette(c('red','orange','yellow'))(100) # 
 
-# PLOT ALL THE DATA
-# video like
+#plot delle immagini
 plot(EN01, col=cl)
 plot(EN02, col=cl)
 plot(EN03, col=cl)
@@ -978,6 +1009,7 @@ plot(EN11, col=cl)
 plot(EN12, col=cl)
 plot(EN13, col=cl)
 
+#plot di tutte le immagini insieme
 par(mfrow=c(4,4))
 plot(EN01, col=cl)
 plot(EN02, col=cl)
@@ -1003,9 +1035,9 @@ plotRGB(EN, red=EN13, green=EN13, blue=EN01, stretch="lin")
 
 boxplot(EN,horizontal=T,axes=T,outline=F)
 
-###########################################################################
+#############################################################################################################################
 
-# R_code_snow.r
+###7. R_code_snow.r
 
 #set working directory
 setwd("~/Documents/lab")
@@ -1021,7 +1053,9 @@ library(raster)
 #raster = importa un singolo livello
 #brick = importa vari livelli -> es. imm. satellitari a diverse bande
 
-snowmay <-  raster("c_gls_SCE500_202005180000_CEURO_MODIS_V1.0.1.nc")
+#dal sito copernicus scarico i dati interessati e li importo su R
+
+snowmay <- raster("c_gls_SCE500_202005180000_CEURO_MODIS_V1.0.1.nc")
 
 cl <- colorRampPalette(c('darkblue','blue','light blue'))(100)
 
@@ -1031,6 +1065,8 @@ plot(snowmay,col=cl)
 #import snow data
 #setto la nuova working directory
 setwd("~/Documents/lab/snow")
+
+#salvo il raster nella list
 rlist <- list.files(pattern=".tif")
 list_rast <- lapply(rlist, raster) #applica una funzione all'intera lista di file 
 snow.multitemp <- stack(list_rast)
@@ -1047,23 +1083,26 @@ difsnow = snow.multitemp$snow2020r - snow.multitemp$snow2000r
 cldiff <- colorRampPalette (c("blue","white","red"))(100)
 plot(difsnow, col=cldiff)
 
-#previsione multitemporale nel 2025
+#faccio una previsione multitemporale nel 2025 scaricando il pacchetto prediction.r da IOL
 source("prediction.r")
 
 predicted.snow.2025.norm <- raster("predicted.snow.2025.norm.tif")
 
 plot(predicted.snow.2025.norm) # previsione della neve al 2025 fatta secondo una previsione lineare
 
-##################################################################################################
-
+#############################################################################################################################
 
 ### 9. R_code_ patches
 
-#richiamo libreria raster
-library(raster)
-
 #Settaggio working directory
 setwd("~/Documents/lab")
+
+#installo e richiamo pacchetto
+install.packages("igraph")
+library(igraph)
+
+#richiamo libreria raster
+library(raster)
 
 #carico dati
 d1c <- raster("d1c.tif")
@@ -1078,6 +1117,7 @@ plot(d2c, col =cl)
 #forest : class 2 ; agricolture : class 1
 
 #cbind serve per annullare certi valori
+#reclassify serve per riclassificare l'immagine raster ridonando certi valori
 d1c.for <- reclassify(d1c,cbind(1,NA)) #elimino tutto ciò che non è foresta
 par(mfrow=c(1,2))
 plot(d1c, col=cl)
@@ -1087,14 +1127,12 @@ par(mfrow=c(1,2))
 plot(d1c)
 plot(d2c)
 
-#crearing patches
-install.packages("igraph")
+#creating patches
 d1c.for.patches <- clump(d1c.cat.for)
 d2c.for.patches <- clump (d2c.cat.for)
 
-
-#writeRaster(d1c.for.patches, "d1c.for.patches.tif")
-#writeRaste(d2c.for.patches, "d2c.for.patches.tif")
+writeRaster(d1c.for.patches, "d1c.for.patches.tif")
+writeRaste(d2c.for.patches, "d2c.for.patches.tif")
 
 #Exercise
 clp <- colorRampPalette(c('dark blue','blue','green','orange','yellow','red'))(100)
@@ -1116,5 +1154,3 @@ attach(output)
 #plot finale
 library(ggplot)
 ggplot(output,aes(x=time, y=npatches, color="red") + geom_bar(stat="identity",fill="white")
-
-
