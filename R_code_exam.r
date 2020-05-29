@@ -248,7 +248,7 @@ setwd("~/Documents/lab")
 # importazione dei dati
 covid <- read.table("covid_agg.csv", head=T)  #head=T fa capire al sistema che si vuole aggiungere l'intestazione 
 
-# richiamo le prime 6 righe della tabella
+# richiamo le prime 6 righe della tabella 
 head(covid)
 
 # creo un plot iniziale per vedere la distribuzione delle variabili
