@@ -19,6 +19,7 @@ https://land.copernicus.vgt.vito.be/PDF/portal/Application.html
 #qualcosa che si trova esternamente a R occorrei usare le virgolette
 install.packages("sp") 
 library(sp) #sp ci fornisce classi e metodi per effettuare un'analisi spaziale
+#un modo alternativo per richiamare le librerie è require()
 
 #data serve per richiamare i dati contenuti nella libreria; meuse è il nostro dataset sulle concentrazioni di metalli pesanti
 #all'interno del terreno e una serie di variabili del suolo
@@ -113,8 +114,6 @@ attach(meuse)
 #ora possiamo fare un plot senza dover scrivere ogni volta meuse perchè abbiamo usato la funzione attach
 plot(cadmium,copper, pch=17, col="green", main="primo.plot", xlab="cadmio",ylab="rame")
 
-
-
 #############################################################################################################################
 
 ### 2. R spatial : funzioni spaziali in Ecologia del paesaggio
@@ -175,7 +174,6 @@ plot(meuse)
 spplot(meuse,"zinc")
 #dal grafico si evince che le zone più inquinate saranno quelle interessate dai punti gialli
 
-
 # R spatial day 2
 
 #richiamo libreria sp
@@ -194,7 +192,7 @@ coordinates(meuse)= ~x+y
 spplot(meuse,"zinc")
 
 # Exercise : spplot dei dati di rame
-head(meuse)
+head(meuse) #in alternativa possiamo usare names per vedere i nomi delle colonne
 spplot(meuse,"copper")
 
 #la funzione bubble serve per plottare i dati secondo un grafico esteticamente diverso (a bolle)
@@ -228,7 +226,6 @@ covid <- covid_agg
 covid <- read.table("covid_agg.csv",head= TRUE)
 
 ############################################################################################################################
-
 
 ### 3. Analisi dei pattern legati ai punti
 
@@ -385,7 +382,6 @@ points(covids)
 coastlines <- readOGR("ne_10m_coastline.shp")
 plot(coastlines, add=T)
 
-
 #interpolation
 
 #controllo la tabella
@@ -409,9 +405,11 @@ plot(s, col=cl5, main="density")
 points(covids)
 coastlines <- readOGR("ne_10m_coastline.shp")
 plot(coastlines, add=T)
+text(covids)
 
 #mappa finale -> unico grafuco con entrambi i plot
 par(mfrow=c(2,1))
+
 # densità
 cl5 <- colorRampPalette(c('cyan', 'purple', 'red')) (200) 
 plot(d, col=cl5, main="density")
@@ -426,7 +424,7 @@ points(covids)
 coastlines <- readOGR("ne_10m_coastline.shp")
 plot(coastlines, add=T)
 
-#Esercizio San Marino
+### Esercizio San Marino
 load("/Users/ariannalucarini/Documents/lab/Tesi.RData")
 head(Tesi)
 #richiamare libreria spat
@@ -445,10 +443,56 @@ Tesippp <- ppp(Longitude, Latitude, c(12.41,12.47),c(43.9,43.95))
 dT <- density(Tesippp)
 plot(dT)
 points(Tesippp, col="green")
+colors()
+
+setwd("~/Documents/lab")
+
+load("sanmarino.RData")
+
+library(spatstat)
+ls()
+
+# dT=density map, Tesi=dataset originale, Tesi_ppp=point pattern
+
+plot(dT)
+points(Tesippp, col="green")
+
+head(Tesi)
+
+marks(Tesippp) <- Tesi$Species_richness
+interpol <- Smooth(Tesippp)
+plot(interpol)
+points(Tesippp, col="green")
+
+library(rgdal)
+sanmarino <- readOGR("San_Marino.shp")
+
+plot(sanmarino)
+plot(interpol, add=T)
+points(Tesippp,col="green")
+plot(sanmarino, add=T)
+
+# Exercise: plot multiframe di densità e interpolazione
+par(mfrow=c(2,1))
+
+plot(dT, main="Density of points")
+points(Tesippp,col="green")
+
+plot(interpol, main="Estimate of species richness")
+points(Tesippp,col="green")
+
+# Exercise: plot multiframe di densità e interpolazione uno acacnto all'alto
+par(mfrow=c(1,2))
+
+plot(dT, main="Density of points")
+points(Tesippp,col="green")
+
+plot(interpol, main="Estimate of species richness")
+points(Tesippp,col="green")
 
 #############################################################################################################################
 
-### 4. CODICE R PER ANALISI DI IMMAGINI SATELLITARI 07/04/20
+### 4. CODICE R PER ANALISI DI IMMAGINI SATELLITARI - telerilevamento 07/04/20
 
 # scarico e/o richiamo i pacchetti che verranno utilizzati
 install.packages("raster") # il pacchetto raster ci permette dileggere, scrivere, manipolare, analizzare e modellare dati 
@@ -468,7 +512,7 @@ p224r63_2011 <- brick("p224r63_2011_masked.grd")
 #plot della nostra immagine satellitare iniziale per estrarre dati base (riflettanze ecc...)
 plot(p224r63_2011) # si nota un paesaggio in varie bande (b1...b7 ognuno con una lunghezza d'onda diversa)
 
-# 08/04/20
+#Day 2 - 08/04/20
 
 #setto la directory
 setwd("~/Documents/lab")
@@ -497,6 +541,7 @@ plot(p224r63_2011,col=cl)
 
 # cambiamo la scala cromatica
 cllow<-colorRampPalette(c("black","grey","light grey"))(5) #esperimento per vedere la riflettanza usando solo 5 gamme di colore
+plot(p224r63_2011, col=cllow)
 
 #plottiamo l'immagine con la gamma del blu
 clb <- colorRampPalette(c("dark blue","blue","light blue"))(100)
@@ -612,7 +657,7 @@ plotRGB(p224r63_1988, r=3, g=2, b=1, stretch="Lin")
 #Exercise : plot the image the nir on the "r" componment in the RGB space
 plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="Lin")
 
-#Plot dell'immagine 2011 e 1988 per notare le differenze
+#Plot dell'immagine 1988 e 2011 per notare le differenze
 par(mfrow=c(2,1))
 plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
@@ -697,6 +742,9 @@ par(mfrow=c(2,1))
 plot(difdvi, col=cldifdvi)
 plot(difdvilr50, col=cldifdvi)
  
+#############################################################################################################################
+
+###5. R code landcover
 
 #setto la directory
 setwd("~/Documents/lab")
@@ -760,7 +808,7 @@ points(Tesippp, col="green")
 
 #############################################################################################################################
 
-###5. R code analisi multitemporale di variazione della land cover
+###6. R code analisi multitemporale di variazione della land cover - R code multitemp
 
 # imposto la woriking directory
 setwd("~/Documents/lab")
@@ -926,7 +974,7 @@ grid.arrange(grafico1,grafico2,nrow=1)
 
 #############################################################################################################################
 
-###6. R code for analysing NO" data from ESA - January to March 2020
+###7. R code for analysing NO" data from ESA - January to March 2020
 
 setwd("~/Documents/lab")
 
@@ -1037,7 +1085,7 @@ boxplot(EN,horizontal=T,axes=T,outline=F)
 
 #############################################################################################################################
 
-###7. R_code_snow.r
+###8. R_code_snow.r
 
 #set working directory
 setwd("~/Documents/lab")
