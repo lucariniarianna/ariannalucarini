@@ -1,14 +1,15 @@
 # R_code_exam.r
 
-1. R_code_first.r   
-2. R_code_spatial.r  [1 e 2] 
-3. R_code_point_pattern   
-4. R_code_teleril.r   
-5. R_code_landcover.r   
-6. R_code_multitemp.r   
-7. R_code_multitemp_NO2.r   
-8. R_code_snow.r   
-9. R_code_patches.r   
+#1. R_code_first.r   
+#2. R_code_spatial.r  [1 e 2] 
+#3. R_code_point_pattern   
+#4. R_code_teleril.r   
+#5. R_code_landcover.r   
+#6. R_code_multitemp.r   
+#7. R_code_multitemp_NO2.r   
+#8. R_code_snow.r   
+#9. R_code_patches.r 
+#10. R_code_crop.r
 
 #Copernicus Website
 https://land.copernicus.vgt.vito.be/PDF/portal/Application.html
@@ -1116,7 +1117,7 @@ setwd("~/Documents/lab/snow")
 
 #salvo il raster nella list
 rlist <- list.files(pattern=".tif")
-list_rast <- lapply(rlist, raster) #applica una funzione all'intera lista di file 
+list_rast <- lapply(rlist, raster) # lapply applica una funzione di riferimento (es. raster) all'intera lista di file 
 snow.multitemp <- stack(list_rast)
 plot(snow.multitemp, col=cl)
 
@@ -1202,3 +1203,71 @@ attach(output)
 #plot finale
 library(ggplot)
 ggplot(output,aes(x=time, y=npatches, color="red") + geom_bar(stat="identity",fill="white")
+       
+##########################################################################################################################
+       
+### 10. R code crop - exam simulation
+
+#set della working directory
+setwd("~/Documents/lab/snow")
+       
+#carico libreria
+library(raster)
+       
+#Exercise : upload the whol snow set
+rlist <- list.files(pattern="snow") #prendiamo tutti i file che cominciano per "snow"
+rlist
+       
+list_rast <- lapply(rlist, raster)
+sow.multitemp <- stack(list_rast)
+
+#per fare il plot scelgo prima la color ramp palette
+clb <- colorRampPalette(c('dark blue','blue','light blue'))(100)
+plot(snow.multitemp,col=clb)
+       
+#creo uno zoom sull'immagine della zona da me interessata
+snow.multitemp #controllo prima i miei dati per intero
+plot(snow.multitemp$snow2010r, col=clb)
+       
+#prima di tutto devo definire l'estenzione
+#es. ci sono due modi per definire le estenzioni: 
+#1. fare rettangolo dell'area interessata
+     plot(snow.multitemp$snow2010r, col=clb)
+     zoom(snow.multitemp$snow2010r, ext=drawExtent()) #una volta lanciata la funzione
+     #partiamo in alto a sinistra, teniamo tenuto, una volta finito il rettangolo dobbiamo rilasciare e premere una seconda volta
+       
+#2. definire le nuove cordinate
+     ext <- c(6,20,35,50)
+zoom(snow.multitemp$snow2010r, ext=extension) 
+       
+# crop
+extension <- c(6, 20 , 35 , 50)
+snow2010r.italy <- crop (snow.multitemp$snow2010r, extension) #tramite la funzione crop creo direttamente un ritaglio della mia area interessata
+#con la funzione crop non va dichiarata l'extension
+plot(snow2010.r.italy, col=clb)
+       
+#Exercise : crop the Italy extent on the whole stack of snow layers
+snow.multitemp.italy <- crop(snow.multitemp, extension)
+       
+#visualizzo ora la mappa finale
+plot(snow.multitemp.italy, col= clb)
+       
+snowmultitemp.italy #vediamo i dati per scegliere i valori minimi e massimi
+#facciamo variare i range per cambiare le legende e metterle tutte uguali
+plot(snow.multitemp.italy, col=clb, zlim=c(20,200)) #zlim fa si che si definisca il limite della legenda
+#boxplot per vedere come si comportano le variabili
+boxplot(snow.multitemp.italy, horizontal=T,outline=F)
+#c'è meno copertura nevosa e si envince dal valore massimo della copertura nevosa che è molto alto nella parte del 2000 e più basso nella parte del 2020
+ 
+
+       
+
+       
+
+
+ 
+
+
+       
+
+
