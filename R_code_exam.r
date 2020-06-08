@@ -19,7 +19,7 @@ https://land.copernicus.vgt.vito.be/PDF/portal/Application.html
 ### 1. R code first
 
 #Prima di tutto occorre installare la nuova libreria, attraverso i pacchetti, e richiamarla (ogni volta che vogliamo richiamare
-#qualcosa che si trova esternamente a R occorrei usare le virgolette
+#qualcosa che si trova esternamente a R occorrei usare le virgolette) AL
 install.packages("sp") 
 library(sp) #sp ci fornisce classi e metodi per effettuare un'analisi spaziale
 #un modo alternativo per richiamare le librerie è require()
