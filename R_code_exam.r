@@ -1258,16 +1258,85 @@ plot(snow.multitemp.italy, col=clb, zlim=c(20,200)) #zlim fa si che si definisca
 #boxplot per vedere come si comportano le variabili
 boxplot(snow.multitemp.italy, horizontal=T,outline=F)
 #c'è meno copertura nevosa e si envince dal valore massimo della copertura nevosa che è molto alto nella parte del 2000 e più basso nella parte del 2020
- 
 
+#############################################################################################################################
+
+#11. Species Distribuion Modeling
        
-
+#scarico il pacchetto necessario
+install.packages("sdm")
+library(sdm)
        
+#richiamo librerie necessarie
+library(raster)
+library(rgdal) #libreria capace di gestire meglio dati raster e vettoriali (file vettoriali = coordinate x,y e quindi dei punti)
 
-
- 
-
-
+#importo e utilizzo i file che trovo dentro il pacchetto sdm       
+file <- system.file("external/species.shp", package="sdm")
        
-
-
+#la funzione shapefile (della libreria rgdal) serve per caricare la parte grafica e relativa ai punti    
+species <- shapefile(file)
+       
+#guardo com'è fatto il mio file       
+species       
+#abbiamo una sola variabile: occurrence -> ovvero se c'è o meno la specie
+       
+#per ogni punto spaziale abbiamo un dato che ci dice se è presente o meno la data specie      
+species$Occurrence
+       
+#faccio un plot di species      
+plot(species)
+       
+#visualizzo in modo differente la presenza/assenza della specie utilizzando la funzione plot ma prendendo il dataset species e all'interno del
+#dataset che sono uguali a 1 mettiamo il colore blu e il point characters 16.       
+plot(species[species$Occurrence == 1,],col='blue',pch=16)
+       
+#ora aggiungiamo anche i punti che erano uguali a zero quindi la funzione cisto che dobbiamo aggiungere sarà points
+points(species[species$Occurrence == 0,],col='red',pch=16)       
+       
+#ora prendiamo in considerazione anche le variabili ambientali (predittori)     
+path <- system.file("external", package="sdm")
+       
+#faccio la lista dei file nel percorso appena definito 
+lst <- list.files(path=path,pattern="asc",full.names=T)
+lst
+       
+#faccio uno stack delle variabili (4)
+preds <- stack(lst)      
+       
+#scelgo un colorramppalette
+cl <- colorRampPalette(c('blue','orange','red','yellow')) (100)
+       
+#plot finale con le 4 variabili       
+plot(preds, col=cl)  
+       
+#faccio un plot della variabile elevation con i punti dove è stata avvistata la specie       
+plot(preds$elevation, col=cl)
+points(species[species$Occurrence == 1,], pch=16) #sarà una specie che non ama trovarsi in altitudini elevate
+       
+#faccio un plot della variabile temperature con i punti dove è stata avvistata la specie  
+plot(preds$temperature, col=cl)
+points(species[species$Occurrence == 1,], pch=16 #sarà una specie che preferisce alte temperature   
+       
+#faccio un plot della variabile precipitation con i punti dove è stata avvistata la specie  
+plot(preds$precipitation, col=cl)
+points(species[species$Occurrence == 1,], pch=16 #sarà una specie che preferisce situazioni intermedie   
+       
+#faccio un plot della variabile vegetation con i punti dove è stata avvistata la specie   
+plot(preds$vegetation, col=cl)
+points(species[species$Occurrence == 1,], pch=16 #sarà una specie non particolarmente eliofila
+       
+#creo un modello lineare generalizzato     
+d <- sdmData(train=species, predictors=preds)
+d
+       
+#Creo il modello m1 (per i modelli l'uguale si fa con la tilde)
+m1 <- sdm(Occurrence ~ elevation + precipitation + temperature + vegetation, data=d, methods='glm')
+       
+#previsione di dove si troverà data specie       
+p1 <- predict(m1, newdata=preds)
+plot(p1, col=cl) 
+points(species[species$Occurrence == 1,], pch=16 #abbiamo preso le singole variabili, i singoli predittori, le abbiamo messe in un modello creando la mappa previsionale della distribuzione della specie rispetto le variabili
+#######################################################################################
+       
+       #EXAM PROJECT
