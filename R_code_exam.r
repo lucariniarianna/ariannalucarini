@@ -9,7 +9,9 @@
 #7. R_code_multitemp_NO2.r   
 #8. R_code_snow.r   
 #9. R_code_patches.r 
-#10. R_code_crop.r
+#10.R_code_crop.r
+#11.R_code_SDM.r
+#12.R_code_exam_project.r 
 
 #Copernicus Website
 https://land.copernicus.vgt.vito.be/PDF/portal/Application.html
@@ -1261,7 +1263,7 @@ boxplot(snow.multitemp.italy, horizontal=T,outline=F)
 
 #############################################################################################################################
 
-#11. Species Distribuion Modeling
+### 11. Species Distribuion Modeling
        
 #scarico il pacchetto necessario
 install.packages("sdm")
@@ -1336,7 +1338,8 @@ m1 <- sdm(Occurrence ~ elevation + precipitation + temperature + vegetation, dat
 #previsione di dove si troverà data specie       
 p1 <- predict(m1, newdata=preds)
 plot(p1, col=cl) 
-points(species[species$Occurrence == 1,], pch=16 #abbiamo preso le singole variabili, i singoli predittori, le abbiamo messe in un modello creando la mappa previsionale della distribuzione della specie rispetto le variabili
-#######################################################################################
+points(species[species$Occurrence == 1,], pch=16 #abbiamo preso le singole variabili, i singoli predittori, 
+#le abbiamo messe in un modello creando la mappa previsionale della distribuzione della specie rispetto le variabili
+#############################################################################################################################
        
-       #EXAM PROJECT
+### 12. EXAM PROJECT
