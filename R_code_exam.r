@@ -1343,3 +1343,32 @@ points(species[species$Occurrence == 1,], pch=16 #abbiamo preso le singole varia
 #############################################################################################################################
        
 ### 12. EXAM PROJECT
+       
+#Scarichiamo le librerie necessarie
+library(raster)
+library(ncdf4)
+ 
+#Imposto la set working directory
+setwd("~/Documents/EXAM")
+
+#Importo e attribuisco un nome alle immagini tramite la funzione raster       
+ice2017 <- raster("c_gls_LIE250_201706050000_Baltic_MODIS_V1.1.1.nc")
+ice2018 <- raster("c_gls_LIE250_201806050000_Baltic_MODIS_V1.1.1.nc")
+ice2019 <- raster("c_gls_LIE250_201906050000_Baltic_MODIS_V1.1.1.nc")
+ice2020 <- raster("c_gls_LIE250_202006050000_Baltic_MODIS_V1.1.1.nc")
+
+# Supervisiono i dati scaricati
+ice2017
+ice2018
+ice2019
+ice2020
+       
+# Creo una colorRampPalette 
+cl <- colorRampPalette(c("light blue", "blue","dark blue")(100)
+                       
+# Creo un plot delle 4 immagini insieme grazie alla funzione par
+par(mfrow=c(2,2))
+plot(ice2017, col=cl,main="2017")
+plot(ice2018, col=cl,main="2018")
+plot(ice2019, col=cl, main="2019")
+plot(ice2020, col=cl, main="2020")
