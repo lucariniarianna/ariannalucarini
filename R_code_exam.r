@@ -1372,3 +1372,15 @@ plot(ice2017, col=cl,main="2017")
 plot(ice2018, col=cl,main="2018")
 plot(ice2019, col=cl, main="2019")
 plot(ice2020, col=cl, main="2020")
+                       
+#Oppure faccio una rlist e con uno stack importo tutte le immagini
+rlist <- list.files(pattern = ".nc")
+list_rast <- lapply(rlist, raster)
+ice.multitemp <- stack(list_rast)
+cl <- colorRampPalette(c("dark blue","blue","light blue"))(100)
+plot(ice.multitemp, col=cl)
+
+#Faccio un plot della differenza
+difice= ice.multitemp$Lake.Ice.Extent.1 - ice.multitemp$Lake.Ice.Extent.4
+cldiff <- colorRampPalette(c('blue','white','red'))(100)   # rosso è massima differenza, blu minima, bianca poco
+plot(difice, col=cldiff)
