@@ -1377,10 +1377,5 @@ plot(ice2020, col=cl, main="2020")
 rlist <- list.files(pattern = ".nc")
 list_rast <- lapply(rlist, raster)
 ice.multitemp <- stack(list_rast)
-cl <- colorRampPalette(c("dark blue","blue","light blue"))(100)
 plot(ice.multitemp, col=cl)
 
-#Faccio un plot della differenza
-difice= ice.multitemp$Lake.Ice.Extent.1 - ice.multitemp$Lake.Ice.Extent.4
-cldiff <- colorRampPalette(c('blue','white','red'))(100)   # rosso è massima differenza, blu minima, bianca poco
-plot(difice, col=cldiff)
