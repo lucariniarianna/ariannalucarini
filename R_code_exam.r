@@ -1364,7 +1364,7 @@ ice2019
 ice2020
        
 # Creo una colorRampPalette 
-cl <- colorRampPalette(c("light blue", "blue","dark blue")(100)
+cl <- colorRampPalette(c("light blue", "blue","dark blue"))(100)
                        
 # Creo un plot delle 4 immagini insieme grazie alla funzione par
 par(mfrow=c(2,2))
@@ -1378,4 +1378,9 @@ rlist <- list.files(pattern = ".nc")
 list_rast <- lapply(rlist, raster)
 ice.multitemp <- stack(list_rast)
 plot(ice.multitemp, col=cl)
+       
+#Faccio una differenza tra il 2020 e il 2017
+difice = ice.multitemp$ice2020 - ice.multitemp$ice2017
+cldiff <- colorRampPalette (c("blue","white","red"))(100)
+plot(difice, col=cldiff)
 
