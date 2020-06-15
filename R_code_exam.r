@@ -21,45 +21,45 @@ https://land.copernicus.vgt.vito.be/PDF/portal/Application.html
 #Prima di tutto occorre installare la nuova libreria, attraverso i pacchetti, e richiamarla (ogni volta che vogliamo richiamare
 #qualcosa che si trova esternamente a R occorrei usare le virgolette) AL
 install.packages("sp") 
-library(sp) #sp ci fornisce classi e metodi per effettuare un'analisi spaziale
-#un modo alternativo per richiamare le librerie è require()
+library(sp) #sp ci fornisce classi e metodi per effettuare un'analisi spaziale AL
+#un modo alternativo per richiamare le librerie è require() AL
 
 #data serve per richiamare i dati contenuti nella libreria; meuse è il nostro dataset sulle concentrazioni di metalli pesanti
-#all'interno del terreno e una serie di variabili del suolo
+#all'interno del terreno e una serie di variabili del suolo AL
 data("meuse")
 
-#scrivendo solo il nome del dataset siamo capace di vedere i dati contenuti in una tabella
+#scrivendo solo il nome del dataset siamo capace di vedere i dati contenuti in una tabella AL
 meuse
 
-#con il comando head possiamo vedere le prime 6 righe del nostro dataset
+#con il comando head possiamo vedere le prime 6 righe del nostro dataset AL
 head(meuse)
 
-#grazie al comando names siamo capace di vedere le variabili del nostro dataset
+#grazie al comando names siamo capace di vedere le variabili del nostro dataset AL
 names(meuse)
 
-#summary ci permette di visualizzare gli indici statistici più significativi rispetto tutti i dati del nostro dataset
+#summary ci permette di visualizzare gli indici statistici più significativi rispetto tutti i dati del nostro dataset AL
 summary(meuse)
 
-#pairs è capace di creare un grafico che metta in correlazione le variabili del dataset
+#pairs è capace di creare un grafico che metta in correlazione le variabili del dataset AL
 pairs (meuse)
 
-# grazie a ~ possiamo creare un grafico, sempre con la funzione pairs, ma tenendo in considerazione solo le variabili da noi scelte
+# grazie a ~ possiamo creare un grafico, sempre con la funzione pairs, ma tenendo in considerazione solo le variabili da noi scelte AL
 pairs(~ cadmium + copper + lead , data = meuse)
 pairs(~ cadmium + copper + lead + zin , data = meuse)
 #un modo alternativo al precedente è quello di scrivere quali righe della colonna sono interessate dalle variabili prese da noi in 
-#considerazione
+#considerazione AL
 pairs(meuse[,3:6])
-#con il comando col possiamo cambiare il colore di visualizzano del grafico
+#con il comando col possiamo cambiare il colore di visualizzano del grafico AL 
 pairs(meuse[,3:6],col="red")
-#con il comando pch possiamo scegliere i simboli da visualizzare
+#con il comando pch possiamo scegliere i simboli da visualizzare AL
 pairs(meuse[,3:6],col="red", pch=19)
-#con il comando cex possiamo decidere la grandezza del testo
+#con il comando cex possiamo decidere la grandezza del testo AL
 pairs(meuse[,3:6],col="red", pch=19,cex=3)
-#con il comando main possiamo impostare un titolo al grafico
+#con il comando main possiamo impostare un titolo al grafico AL
 pairs(meuse[,3:6],col="red", pch=19,cex=3,main="Primo pairs")
 pairs(meuse[,3:7],col="red", pch=19,cex=3,main="Primo pairs")
 
-#andiamo a riprendere delle funzioni esterne
+#andiamo a riprendere delle funzioni esterne AL
 panel.correlations <- function(x, y, digits=1, prefix="", cex.cor)
 {
     usr <- par("usr"); on.exit(par(usr))
@@ -100,7 +100,7 @@ panel.histograms <- function(x, ...)
     rect(breaks[-nB], 0, breaks[-1], y, col="white", ...)
 }
 
-#queste funzioni esterne servono per creare dei grafici esteticamente migliori
+#queste funzioni esterne servono per creare dei grafici esteticamente migliori AL
 pairs(meuse[,3:6], lower.panel = panel.correlations, upper.panel = panel.smoothing, diag.panel = panel.histograms)
 pairs(meuse[,3:6],lower.panel=panel.smoothing,upper.panel=panel.correlations,diag.panel = panel.histograms)
 
@@ -108,97 +108,97 @@ pairs(meuse[,3:6],lower.panel=panel.smoothing,upper.panel=panel.correlations,dia
 pairs(meuse[,3:6], lower.panel = panel.smoothing, upper.panel = panel.correlations, diag.panel = panel.histograms)
 
 ###FUNZIONE PLOT
-#tramite la funzione meuse $ possiamo creare un grafico prendendo in considerazione le colonne da noi scelte
+#tramite la funzione meuse $ possiamo creare un grafico prendendo in considerazione le colonne da noi scelte AL
 plot(meuse$cadmium,meuse$copper)
 
-#usiamo attach per fissare il dataframe meuse
+#usiamo attach per fissare il dataframe meuse AL
 attach(meuse)
 
-#ora possiamo fare un plot senza dover scrivere ogni volta meuse perchè abbiamo usato la funzione attach
+#ora possiamo fare un plot senza dover scrivere ogni volta meuse perchè abbiamo usato la funzione attach AL
 plot(cadmium,copper, pch=17, col="green", main="primo.plot", xlab="cadmio",ylab="rame")
 
 #############################################################################################################################
 
 ### 2. R spatial : funzioni spaziali in Ecologia del paesaggio
 
-#installo pacchetto che servirà nell'analisi spaziale
+#installo pacchetto che servirà nell'analisi spaziale AL
 install.packages("GGally")
 
-#richiamo il pacchetto library()
+#richiamo il pacchetto library() AL
 library(sp)
 library(GGally)
 
-#richiamo dati
+#richiamo dati AL
 data(meuse)
 
-#vediamo i dati
+#vediamo i dati AL
 meuse
 
-#vediamo solo le prime 6 righe di dati
+#vediamo solo le prime 6 righe di dati AL
 head(meuse)
 
-#usiamo attach per fissare il dataset
+#usiamo attach per fissare il dataset AL
 attach(meuse)
 
-#plot che mette in correlazione cadmio e piombo
+#plot che mette in correlazione cadmio e piombo AL
 plot(cadmium,lead,col="red",pch=19,cex=2)
 
 #Exercise: fare un plot di rame e zinco con carattere "triangolo" e colore verde e grandezza del carattere non specificata
 plot(cadmium,zinc, col="green",pch=17,cex=1)
 
-#cambiare le etichette tramite funzioni xlab e ylab
+#cambiare le etichette tramite funzioni xlab e ylab AL
 plot(cadmium,zinc, col="green",pch=17,cex=1,xlab="rame", ylab="zinco")
 
-#con multiframe o multipanel possiamo mostrare più grafici insieme
+#con multiframe o multipanel possiamo mostrare più grafici insieme AL
 par(mfrow=c(1,2))
 plot(cadmium,lead,col="red",pch=19,cex=2)
 plot(copper,zinc,col="green",pch=17,cex=2)
 
-#invertiamo i grafici riga/colonna in colonna/riga tramite (mfrow=c())
+#invertiamo i grafici riga/colonna in colonna/riga tramite (mfrow=c()) AL
 par(mfrow=c(2,1))
 plot(cadmium,lead,col="red",pch=19,cex=2)
 plot(copper,zinc,col="green",pch=17,cex=2)
 
-#richiamo pacchetto
+#richiamo pacchetto AL
 library(GGally)
 
-#la funzione ggpairs(meuse) è in grado di fare un grafico con tutte le variabili, in questo caso noi abbiamo specificato quali
+#la funzione ggpairs(meuse) è in grado di fare un grafico con tutte le variabili, in questo caso noi abbiamo specificato quali AL
 ggpairs(meuse[,3:6])
 
 
 #SPATIAL
-#diciamo ad R che nel nostro dataset sono presenti delle coordinate
+#diciamo ad R che nel nostro dataset sono presenti delle coordinate AL
 coordinates(meuse)=~x+y
 
-#grafico di meuse
+#grafico di meuse AL
 plot(meuse)
 
-#la funzione spplot viene usata per creare grafici per dati spaziali
-spplot(meuse,"zinc")
-#dal grafico si evince che le zone più inquinate saranno quelle interessate dai punti gialli
+#la funzione spplot viene usata per creare grafici per dati spaziali AL
+spplot(meuse,"zinc") 
+#dal grafico si evince che le zone più inquinate saranno quelle interessate dai punti gialli AL
 
 # R spatial day 2
 
-#richiamo libreria sp
+#richiamo libreria sp AL
 library(sp)
 
-#dati da usare
+#dati da usare AL 
 data(meuse)
 
-#visualizzo le prime 6 righe di dati
+#visualizzo le prime 6 righe di dati AL
 head(meuse)
 
-#definisco le coordinate del dataframe 
+#definisco le coordinate del dataframe AL
 coordinates(meuse)= ~x+y
 
-#spplot crea un grafico prendendo in considerazione le variabile zinco
+#spplot crea un grafico prendendo in considerazione le variabile zinco AL
 spplot(meuse,"zinc")
 
 # Exercise : spplot dei dati di rame
-head(meuse) #in alternativa possiamo usare names per vedere i nomi delle colonne
+head(meuse) #in alternativa possiamo usare names per vedere i nomi delle colonne AL
 spplot(meuse,"copper")
 
-#la funzione bubble serve per plottare i dati secondo un grafico esteticamente diverso (a bolle)
+#la funzione bubble serve per plottare i dati secondo un grafico esteticamente diverso (a bolle) AL
 bubble(meuse,"zinc")
 
 #Exercise: bubble del rame colorato di rosso
@@ -207,11 +207,11 @@ bubble (meuse,"copper", col="red")
 #Creiamo un nuovo oggetto contenente dei nostri dati
 #formaminifer (dati presi da sofia), carbon capture (dati presi da marco)
 
-#tramite "<-" diamo un nome al nostro oggetto
+#tramite "<-" diamo un nome al nostro oggetto AL 
 foram <- c(10,20,35,55,67,80)
 carbon <- c(5,15,30,70,85,99)
 
-#plottiamo i dati per vedere se i dati sono +o- relazionati tra loro
+#plottiamo i dati per vedere se i dati sono +o- relazionati tra loro AL
 plot(foram, carbon, col="green", cex=2,pch=19)
 
 #scarichiamo un nuovo pacchetto dati riguardanti il covid19
@@ -219,119 +219,119 @@ plot(foram, carbon, col="green", cex=2,pch=19)
 #Dati dall'esterno : covid19
 #Bisogna stabilire da quale cartella occorre prendere i dati facendo files -> scegli cartella -> importa dati
 
-#impostiamo una working directory 
+#impostiamo una working directory AL
 setwd("~/Documents/lab")
 
-#semplifichiamo il nome sempre tramite "<-"
+#semplifichiamo il nome sempre tramite "<-" AL
 covid <- covid_agg
 
-#visualizziamo la tabella con intestazione tramite la funzione head=TRUE
+#visualizziamo la tabella con intestazione tramite la funzione head=TRUE AL
 covid <- read.table("covid_agg.csv",head= TRUE)
 
 ############################################################################################################################
 
 ### 3. Analisi dei pattern legati ai punti
 
-# installazione pacchetto spatstat
+# installazione pacchetto spatstat AL
 install.packages("spatstat")
-# installazione pacchetto rgdal
+# installazione pacchetto rgdal AL
 install.packages("rgdal")
 
-# richiamo i pacchetti precedentemente installati
-library(ggplot2) # in alternativa si può usare il comando require(ggplot2)
+# richiamo i pacchetti precedentemente installati AL
+library(ggplot2) # in alternativa si può usare il comando require(ggplot2) AL
 library(spatstat)
 library(rgdal)
 
-# impostazione della working directory
+# impostazione della working directory AL
 setwd("~/Documents/lab")
 
 # importazione dei dati
-covid <- read.table("covid_agg.csv", head=T)  #head=T fa capire al sistema che si vuole aggiungere l'intestazione 
+covid <- read.table("covid_agg.csv", head=T)  #head=T fa capire al sistema che si vuole aggiungere l'intestazione  AL
 
-# richiamo le prime 6 righe della tabella 
+# richiamo le prime 6 righe della tabella AL
 head(covid)
 
-# creo un plot iniziale per vedere la distribuzione delle variabili
+# creo un plot iniziale per vedere la distribuzione delle variabili AL
 plot(covid$country,covid$cases) 
 
-# dichiariamo che i dati da utilizzare sono quelli del covid
-attach(covid) # modo alternativo per collegare una variabile al proprio dataset
+# dichiariamo che i dati da utilizzare sono quelli del covid AL
+attach(covid) # modo alternativo per collegare una variabile al proprio dataset AL
 plot(country,cases)
 
-# con las si può modificare la modalità di visone dei labels
+# con las si può modificare la modalità di visone dei labels AL 
 plot(covid$country,covid$cases,las=0) # etichette parallele
 plot(covid$country,covid$cases,las=1) # etichette orizzontali
 plot(covid$country,covid$cases,las=2) # etichette perpendicolari
 plot(covid$country,covid$cases,las=3) # etichette verticali
 
-#con ce.axis si controlla la grandezza dei labels
+#con ce.axis si controlla la grandezza dei labels AL
 plot(covid$country,covid$cases,las=3,cex.lab=0.5, cex.axis=0.5) 
 
-# richiamo ggplot2
+# richiamo ggplot2 AL
 library(ggplot2)
 
-# richiamo i dati nella libreria
+# richiamo i dati nella libreria AL
 data(mpg)
 
-# mostro le prime 6 righe della tabella
+# mostro le prime 6 righe della tabella AL
 head(mpg)
 
-# le componenti fondamentali per un grafico sono 3:
+# le componenti fondamentali per un grafico sono 3: AL
 # data
 # aes -> estetica delle variabili
 # tipo di geometria
 
-# creo un plot che contenga queste 3 componenti
+# creo un plot che contenga queste 3 componenti AL
 ggplot(mpg,aes(x=displ,y=hwy)) + geom_point()
 ggplot(mpg,aes(x=displ,y=hwy)) + geom_line()
 ggplot(mpg,aes(x=displ,y=hwy)) + geom_polygon()  #poco fruibile ai fini dei dati in questione
 
-# creo un ggplot di covid
+# creo un ggplot di covid AL
 ggplot(covid,aes(x=lon,y=lat,size=cases)) + geom_point()
 
-# vado ad analizzare il fattore densità e per farlo richiamo la libreria in relazione ai dati covid
+# vado ad analizzare il fattore densità e per farlo richiamo la libreria in relazione ai dati covid AL
 library(spatstat)
 attach(covid)
 
-# tramite la funzione ppp creo un nuovo dataset che mi interessa per l'analisi spaziale
+# tramite la funzione ppp creo un nuovo dataset che mi interessa per l'analisi spaziale AL
 covids <- ppp(lon, lat, c(-180,180), c(-90,90))
 
-# semplifico la variabile della densità chiamandola d
+# semplifico la variabile della densità chiamandola d AL
 d <- density(covids)
 
-# faccio un plot di d
+# faccio un plot di "d" AL
 plot(d)
 
-# con points si possono inserire i punti spaziali definiti grazie alla funzione ppp
+# con points si possono inserire i punti spaziali definiti grazie alla funzione ppp AL
 points(covids)
 
-#save the .RData
+#save the .RData AL
 setwd("~/Documents/lab")
 load("point_pattern.RData")
 
-#chiudo il grafico tramite questa funzione
-ls()
+#chiudo il grafico tramite questa funzione AL
+ls() #oppure tramite dev.off() AL
 
-# plot della mappa di densità
+# plot della mappa di densità AL
 plot(d)
-#cambio i colori del grafico tramite la colorRampPalette che chiameremo cl
+#cambio i colori del grafico tramite la colorRampPalette che chiameremo cl AL
 cl <- colorRampPalette(c("yellow","orange","red"))
 
-#faccio un plot della densità con i colori da me scelti
+#faccio un plot della densità con i colori da me scelti AL
 plot(d, col= cl)
 
-#cambio i colori e faccio un altro plot della mappa della densità dal verde al blu
+#cambio i colori e faccio un altro plot della mappa della densità dal verde al blu AL
 cl <- colorRampPalette(c("green","blue","violet"))
 plot(d, col=cl)
 
-# aggiungo i punti al grafico
+# aggiungo i punti al grafico AL
 points(covids)
 
-#aggiungiamo i bordi dei vari paesi usando la libreria rgdal
-#rgdal crea dei collegamenti alla libreria dei dati geospaziali
+#aggiungiamo i bordi dei vari paesi usando la libreria rgdal AL
+#rgdal crea dei collegamenti alla libreria dei dati geospaziali AL
 coastlines <- readOGR ("ne_10m_coastline.shp")
 
-#faccio un plot completo di intestazione
+#faccio un plot completo di intestazione AL
 plot(coastlines, add=T)
 
 #Exercise : plot della mappa di densità con una nuova colorazione e aggiunta delle coastlines
@@ -365,17 +365,17 @@ plot(coastlines, add=T)
 
 # Exercise: caricare il workspace point_pattern.RData (load("...")) e crare un garfico della mappa di densità
 
-#richiamo le librerie utili
+#richiamo le librerie utili AL
 library(spatstat)
-library(rgdal) # per le coastlines
+library(rgdal) # per le coastlines AL
 
-#imposto la working directory
+#imposto la working directory AL
 setwd("~/Documents/lab")
 
-#sarico dati
+#sarico dati AL
 load("point_pattern.RData")
 
-#chiudo grafico
+#chiudo grafico AL
 ls()
 
 cl5 <- colorRampPalette(c('cyan', 'purple', 'red')) (200) 
@@ -385,15 +385,15 @@ points(covids)
 coastlines <- readOGR("ne_10m_coastline.shp")
 plot(coastlines, add=T)
 
-#interpolation
+###interpolation
 
-#controllo la tabella
+#controllo la tabella AL
 head(covids)
 
-#creo valori per l'interpolazione
+#creo valori per l'interpolazione AL
 marks(covids) <- covid$cases
 
-#funzione di interpolazione
+#funzione di interpolazione AL
 s <- Smooth(covids)
 plot(s)
 
@@ -410,7 +410,7 @@ coastlines <- readOGR("ne_10m_coastline.shp")
 plot(coastlines, add=T)
 text(covids)
 
-#mappa finale -> unico grafuco con entrambi i plot
+#mappa finale -> unico grafuco con entrambi i plot AL
 par(mfrow=c(2,1))
 
 # densità
@@ -430,7 +430,7 @@ plot(coastlines, add=T)
 ### Esercizio San Marino
 load("/Users/ariannalucarini/Documents/lab/Tesi.RData")
 head(Tesi)
-#richiamare libreria spat
+#richiamare libreria spatstat AL
 library(spatstat)
 attach(Tesi)
 
@@ -455,7 +455,7 @@ load("sanmarino.RData")
 library(spatstat)
 ls()
 
-# dT=density map, Tesi=dataset originale, Tesi_ppp=point pattern
+# dT=density map, Tesi=dataset originale, Tesi_ppp=point pattern AL
 
 plot(dT)
 points(Tesippp, col="green")
@@ -497,34 +497,34 @@ points(Tesippp,col="green")
 
 ### 4. CODICE R PER ANALISI DI IMMAGINI SATELLITARI - telerilevamento 07/04/20
 
-# scarico e/o richiamo i pacchetti che verranno utilizzati
+# scarico e/o richiamo i pacchetti che verranno utilizzati AL
 install.packages("raster") # il pacchetto raster ci permette dileggere, scrivere, manipolare, analizzare e modellare dati 
-#spaziali su una griglia
-#richiamo pacchetto
+#spaziali su una griglia AL
+#richiamo pacchetto AL
 library(raster)
 
-#RStoolbox serve per l'elaborazione e l'analisi delle immagini di telerilevamento 
+#RStoolbox serve per l'elaborazione e l'analisi delle immagini di telerilevamento AL
 install.packages("RStoolbox")
 
-#setto la directory
+#setto la directory AL
 setwd("~/Documents/lab")
 
-#la funzione brick prende un immagine satellitare all'interno di una cartella e le da un nome
+#la funzione brick prende un immagine satellitare all'interno di una cartella e le da un nome AL
 p224r63_2011 <- brick("p224r63_2011_masked.grd")
 
-#plot della nostra immagine satellitare iniziale per estrarre dati base (riflettanze ecc...)
+#plot della nostra immagine satellitare iniziale per estrarre dati base (riflettanze ecc...) AL
 plot(p224r63_2011) # si nota un paesaggio in varie bande (b1...b7 ognuno con una lunghezza d'onda diversa)
 
 #Day 2 - 08/04/20
 
-#setto la directory
+#setto la directory AL
 setwd("~/Documents/lab")
 
-#Richiamo i dati 
+#Richiamo i dati  AL
 load("~/Documents/lab/.RData")
 ls() #[1] "covid_agg"    "p224r63"      "p224r63_2011"
 
-#richiamo la libreria
+#richiamo la libreria AL
 library(raster)
 
 plot(p224r63_2011) #plot delle singole bande dell'immagine satellitare
@@ -536,32 +536,32 @@ plot(p224r63_2011) #plot delle singole bande dell'immagine satellitare
 # B6: thermal infrared
 # B7: medium infrared
 
-# cambiamo la colorazione da bianco a nero
-cl<-colorRampPalette(c("black","grey","light grey"))(100) #il colore grigio chiaro definisce la riflettanza maggiore
+# cambiamo la colorazione da bianco a nero AL
+cl<-colorRampPalette(c("black","grey","light grey"))(100) #il colore grigio chiaro definisce la riflettanza maggiore AL
 
-#una volta aggiornata la palette la richiamo con col=cl
+#una volta aggiornata la palette la richiamo con col=cl AL
 plot(p224r63_2011,col=cl)
 
-# cambiamo la scala cromatica
+# cambiamo la scala cromatica AL
 cllow<-colorRampPalette(c("black","grey","light grey"))(5) #esperimento per vedere la riflettanza usando solo 5 gamme di colore
 plot(p224r63_2011, col=cllow)
 
-#plottiamo l'immagine con la gamma del blu
+#plottiamo l'immagine con la gamma del blu AL
 clb <- colorRampPalette(c("dark blue","blue","light blue"))(100)
 plot(p224r63_2011$B1_sre,col=clb)
 
-names (p224r63_2011) #per vedere i nomi delle bande che stiamo utilizzando
+names (p224r63_2011) #per vedere i nomi delle bande che stiamo utilizzando AL
 #[1] "B1_sre" "B2_sre" "B3_sre" "B4_sre" "B5_sre" "B6_bt"  "B7_sre"
-# attach(dataframe) non funziona con la funzione raster
-# simbolo che lega la colonna (la banda) al dataset (immagine satellitare) -> $
-# abbiamo prodotto un'immagine nella prima banda con i colori associati alla riflettanza di questa banda
+# attach(dataframe) non funziona con la funzione raster AL
+# simbolo che lega la colonna (la banda) al dataset (immagine satellitare) -> $ AL
+# abbiamo prodotto un'immagine nella prima banda con i colori associati alla riflettanza di questa banda AL
 
 #Esercizio : plottare la banda dell'infrarosso vicino con colorramppalette che varia dal rosso, all'arancione al giallo
 clnir <- colorRampPalette(c("red","orange","yellow"))(100)
 plot(p224r63_2011$B4_sre,col=clnir)
 #ci sarà molta vegetazione perchè le piante riflettono molto l'infrarosso vicino
 
-#plot di tutte e 4 le bande tramite la funzione par che peremette di utilizzare a blocchi la nostra finestra
+#plot di tutte e 4 le bande tramite la funzione par che peremette di utilizzare a blocchi la nostra finestra AL
 par(mfrow=c(2,2))
 
 #blue
@@ -580,27 +580,27 @@ plot(p224r63_2011$B3_sre,col=clr)
 clnir <- colorRampPalette(c("red","orange","yellow"))(100)
 plot(p224r63_2011$B4_sre,col=clnir)
 
-#montiamo le bande insieme in modo tale da poterle vedere in modo naturale
+#montiamo le bande insieme in modo tale da poterle vedere in modo naturale AL
 dev.off() #device=finestra grafica -> chiude le immagini appena plottate
 
-#natural colours 
+#natural colours AL
 # 3 componenti all'interno del computer : R G B
 #in ognuno di questi tre componenti dobbiamo montare un'immagine
 #3 bande: R= red ; G= green; B=blue
 plotRGB(p224r63_2011,r=3,g=2,b=1)
 
-#stretch serve per aumentare la gamma dei colori, in questo caso usiamo lo strech lineare
+#stretch serve per aumentare la gamma dei colori, in questo caso usiamo lo strech lineare AL
 plotRGB(p224r63_2011,r=3,g=2,b=1,stretch="Lin")
 
-#utilizziamo il nir per distinguere meglio la vegetazione (Dobbiamo però metterlo al posto di un altro perchè si possono usare soll 3 alla volta)
+#utilizziamo il nir per distinguere meglio la vegetazione (Dobbiamo però metterlo al posto di un altro perchè si possono usare soll 3 alla volta) AL
 plotRGB(p224r63_2011,r=4,g=3,b=2,stretch="Lin") #false colours
 
-#salvare un'immagine in pdf o in #png("primografico.png") i grafici sono meno pesanti
+#salvare un'immagine in pdf o in #png("primografico.png") i grafici sono meno pesanti AL
 pdf("primografico.pdf")
 plotRGB(p224r63_2011,r=4,g=3,b=2,stretch="Lin")
 dev.off()
 
-#per confrontare le due immagini in un grafico multiframe utilizziamo par
+#per confrontare le due immagini in un grafico multiframe utilizziamo par AL
 par(mfrow=c(2,1))
 plotRGB(p224r63_2011,r=3,g=2,b=1,stretch="Lin")
 plotRGB(p224r63_2011,r=4,g=3,b=2,stretch="Lin")
@@ -617,24 +617,24 @@ plotRGB(p224r63_2011,r=6,g=5,b=4,stretch="Lin")
 
 # Day 2
 
-# scarico e/o richiamo i pacchetti che verranno utilizzati
+# scarico e/o richiamo i pacchetti che verranno utilizzati AL
 install.packages("raster")
 library(raster)
 
-#setto la directory
+#setto la directory AL
 setwd("~/Documents/lab")
 load("/Users/ariannalucarini/Documents/lab/Teleril.RData")
 
 ls()
 
-#importare file all'interno di R
+#importare file all'interno di R AL
 brick("p224r63_1988_masked.grd")
 p224r63_1988 <- brick("p224r63_1988_masked.grd")
 
-#plot dell'immagine del 1988
+#plot dell'immagine del 1988 AL
 plot(p224r63_1988)
 
-#plot di tutte e 4 le bande
+#plot di tutte e 4 le bande AL
 #par ci peremette di utilizzare a blocchi la nostra finestra
 par(mfrow=c(2,2))
 
@@ -665,60 +665,60 @@ par(mfrow=c(2,1))
 plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
 
-#titolo grafico
+#titolo grafico con main AL
 par(mfrow=c(2,1))
 plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="Lin", main="1988")
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin",main="2011")
 
-#la parte agricola è molto più sviluppata rispetto al 1988 (le piante che riflettono il nir sono rosse mentre il suolo agricolo avrà un altro colore
+#la parte agricola è molto più sviluppata rispetto al 1988 (le piante che riflettono il nir sono rosse mentre il suolo agricolo avrà un altro colore) AL
 dev.off()
 
-#calcoliamo l'indice di salute della vegetazione in base alla riflettanza dell'infrarosso dalle foglie
-#DVI : Difference Vegetation index (spectral index)
-#DVI=NIR-RED i risultati cambiano in base alla salute delle piante
-#Sana = NIR alto
-#Malata = RED alto
+#calcoliamo l'indice di salute della vegetazione in base alla riflettanza dell'infrarosso dalle foglie AL
+#DVI : Difference Vegetation index (spectral index) AL
+#DVI=NIR-RED i risultati cambiano in base alla salute delle piante AL
+#Sana = NIR alto AL
+#Malata = RED alto AL
 
-#dvi1988=nir1988-red1988
+#dvi1988=nir1988-red1988 AL
 dvi1988 <- p224r63_1988$B4_sre-p224r63_1988$B3_sre  #$ serve per legare due oggetti
-# vediamo il plot
+# vediamo il plot AL
 plot(dvi1988)
 
-#spectral index of 2011
+#spectral index of 2011 AL
 dvi2011 <- p224r63_2011$B4_sre-p224r63_2011$B3_sre
 plot(dvi2011)
 cldvi <- colorRampPalette(c("light blue", "light green", "green")) (100)
 plot(dvi2011, col=cldvi)
 
 #differenza nel tempo dei due indici = analisi multitemporale, possiamo vedere il cambiamento dell'indice dello stato di vegetazione
-#più il valore sarà alto e più lo stato di salute sarà migliore
+#più il valore sarà alto e più lo stato di salute sarà migliore AL
 difdvi <- dvi2011-dvi1988
 
-#tramite questo plot possiamo vedere le zone dove le piante hanno subito più stress
+#tramite questo plot possiamo vedere le zone dove le piante hanno subito più stress AL
 plot(difdvi)
 cldifdvi <- colorRampPalette(c("red","white","blu"))(100)
 plot(difdvi, col= cldifdvi)
 
-#visualizzazione dell'output tramite un multiframe dell'immagine del 1988, del 2011 e della differenza tra questi anni
+#visualizzazione dell'output tramite un multiframe dell'immagine del 1988, del 2011 e della differenza tra questi anni AL
 par(mfrow=c(3,1))
 plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
 plot(difdvi, col=cldifdvi)
 
-#la funzione aggregate serve per cambiare la risoluzione dell'immagine
-p224r63_2011lr <- aggregate(p224r63_2011, fact=10) #fact 10 vuol dire che stiamo usando una scala 10 volte maggiore
-p224r63_2011 #caratteristiche dell'immagine originale
-p224r63_2011lr #caratteristiche della nuova immagine
+#la funzione aggregate serve per cambiare la risoluzione dell'immagine AL
+p224r63_2011lr <- aggregate(p224r63_2011, fact=10) #fact 10 vuol dire che stiamo usando una scala 10 volte maggiore AL
+p224r63_2011 #caratteristiche dell'immagine originale AL
+p224r63_2011lr #caratteristiche della nuova immagine AL 
 
-#creo il grafico
+#creo il grafico AL
 par(mfrow=c(2,1))
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
 plotRGB(p224r63_2011lr, r=4, g=3, b=2, stretch="Lin")
 dev.off()
 
-#dvi della nuova immagine 2011 con una risoluzione minore
+#dvi della nuova immagine 2011 con una risoluzione minore AL
 p224r63_2011lr50 <- aggregate(p224r63_2011, fact=50)
-#original 30m -> resampled 1500m
+#original 30m -> resampled 1500m AL
 par(mfrow=c(3,1))
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
 plotRGB(p224r63_2011lr, r=4, g=3, b=2, stretch="Lin")
@@ -728,19 +728,19 @@ dv2011lr50 <- p224r63_2011lr50$B$_sre-p224r63_2011lr50$B4_sre
 plot(dv2011lr50)
 
 
-#dvi della nuova immagine 1988 con risoluzione minore
-p224r63_1988lr50 <- aggregate(p224r63_2011, fact=50) #la risoluzione è importante perchè altrimenti non riusciremo a distinguere le componenti della biodiversità
+#dvi della nuova immagine 1988 con risoluzione minore AL
+p224r63_1988lr50 <- aggregate(p224r63_2011, fact=50) #la risoluzione è importante perchè altrimenti non riusciremo a distinguere le componenti della biodiversità AL
 dvi1988lr50 <- p224r63_1988lr50$B4_sre - p224r63_1988lr50$B3_sre
-#differenza dvi corretta
+#differenza dvi corretta AL
 difdvilr50 <- dvi2011lr50 - dvi1988lr50
 dvi2011lr50 <- p224r63_2011lr50$B4_sre - p224r63_2011lr50$B3_sre
 dvi1988lr50 <- p224r63_1988lr50$B4_sre - p224r63_1988lr50$B3_sre
-#differenza dvi dei due anni a bassa risoluzione
+#differenza dvi dei due anni a bassa risoluzione AL
 difdvilr50 <- dvi2011lr50 - dvi1988lr50
-#creo l'immagine
+#creo l'immagine AL
 plot(difdvilr50,col=cldifdvi)
 
-#multiframe del totale
+#multiframe del totale AL
 par(mfrow=c(2,1))
 plot(difdvi, col=cldifdvi)
 plot(difdvilr50, col=cldifdvi)
@@ -749,23 +749,21 @@ plot(difdvilr50, col=cldifdvi)
 
 ###5. R code landcover
 
-#setto la directory
+#setto la directory AL
 setwd("~/Documents/lab")
 load("/Users/ariannalucarini/Documents/lab/Teleril.RData")
-# controllo i dati che sono all'interno 
-ls()
 
-#richiamo pacchetti
+#richiamo pacchetti AL
 library(spatstat)
 library(rgdal)
 
-#prime sei righe dei nostri dati
+#prime sei righe dei nostri dati AL
 head (Tesi)
 
-#riferisco quali dati utilizzare
+#riferisco quali dati utilizzare AL
 attach(Tesi)
 
-#vedo il sommario dei dati
+#vedo il sommario dei dati AL
 summary(Tesi)
 ls()
 
@@ -773,18 +771,18 @@ tesip <- ppp(Longitude,Latitude,c(12.41,12.47),c(43.90,43.95))
 
 dT <- density(tesip)
 
-#faccio grafico
+#faccio grafico AL
 plot(dT)
 
-#la funzione marks va ad associare le variabili al point pattern
+#la funzione marks va ad associare le variabili al point pattern AL
 marks(Tesippp) <- Tesi$Species_richness
 
-#Smooth serve per dare continuità alla mappa anche dove i valori non ci sono (fa una stima)
+#Smooth serve per dare continuità alla mappa anche dove i valori non ci sono (fa una stima) AL
 interpol <- Smooth(Tesippp)
 plot(interpol)
 points(Tesippp, col="green")
 
-#metto i confini di San Marino e faccio il plot
+#metto i confini di San Marino e faccio il plot AL
 sanmarino <- readOGR("San_Marino.shp")
 plot(sanmarino)
 plot(interpol, add=T)
@@ -813,40 +811,40 @@ points(Tesippp, col="green")
 
 ###6. R code analisi multitemporale di variazione della land cover - R code multitemp
 
-# imposto la woriking directory
+# imposto la woriking directory AL
 setwd("~/Documents/lab")
 
-# richiamo le librerie
+# richiamo le librerie AL
 library(raster)
 library(RStoolbox)
 
-#richiamo le immagini che ci servono per l'analisi
+#richiamo le immagini che ci servono per l'analisi AL
 p224r63_2011 <- brick("p224r63_2011_masked.grd")
 plotRGB(p224r63_2011,r=4,g=3,b=2,stretch="Lin")
 
-#con questa funzione è possibile far leggere le immagini al programma
+#con questa funzione è possibile far leggere le immagini al programma AL
 defor1 <- brick("defor1_.jpg") # .png for Mac
 defor2 <- brick("defor2_.jpg")
 
-#guardo le caratteristiche dell'immagine
+#guardo le caratteristiche dell'immagine AL
 defor1
 # names: defor1_.1, defor1_.2, defor1_.3 
 # defor1_.1 = NIR
 # defor1_.2 = red
 # defor1_.3 = green
 
-#plot RGB
+#plot RGB AL
 plotRGB(defor1, r=1, g=2, b=3, stretch="Lin")
 
 # Exercise plot della seconda data
 plotRGB(defor2, r=1, g=2, b=3, stretch="Lin")
 
-#creo un multiframe per vedere i due plot a confronto
+#creo un multiframe per vedere i due plot a confronto AL
 par(mfrow=c(2,1))
 plotRGB(defor1, r=1, g=2, b=3, stretch="Lin")
 plotRGB(defor2, r=1, g=2, b=3, stretch="Lin")
 
-# classificazione non supervisionata, ovvero, non si specificano le classi (si utilizza la libreria RStoolbox
+# classificazione non supervisionata, ovvero, non si specificano le classi (si utilizza la libreria RStoolbox) AL
 d1c <- unsuperClass(defor1, nClasses=2)
 plot(d1c$map)
 cl <- colorRampPalette(c('black','green'))(100) # 
@@ -866,7 +864,7 @@ plot(d1c$map, col=cl)
 d2c <- unsuperClass(defor2, nClasses=2)
 plot(d2c$map, col=cl)
 
-# plot delle due mappe ottenute per confrontarle
+# plot delle due mappe ottenute per confrontarle AL
 par(mfrow=c(2,1))
 plot(d1c$map, col=cl)
 plot(d2c$map, col=cl)
@@ -875,7 +873,7 @@ par(mfrow=c(1,2))
 plot(d1c$map, col=cl)
 plot(d2c$map, col=cl)
 
-#frequenza delle due mappe
+#frequenza delle due mappe AL
 freq(d1c$map)
 # aree aperte = 37039
 # foresta = 304253
@@ -884,10 +882,10 @@ totd1 <- 37039 + 304253
 totd1
 # 341292
 
-#la percentuale di foresta è uguale alla frequenza della prima mappa x 100 diviso il totale
+#la percentuale di foresta è uguale alla frequenza della prima mappa x 100 diviso il totale AL
 percent1 <- freq(d1c$map) * 100 / totd1
 
-# percentuali
+# percentuali AL
 # foreste: 89.1
 # aree aperte: 10.9
 
@@ -908,34 +906,34 @@ percent2 <- freq(d2c$map) * 100 / totd2
 # foreste: 51.8
 
 #-----
-#imposto la directory
+#imposto la directory AL
 setwd("~/Documents/lab")
 
-#installo e richiamo pacchetto
+#installo e richiamo pacchetto AL
 install.packages("gridExtra")
 library(gridExtra)
 
-#richiamiamo il file salvato:
+#richiamiamo il file salvato: AL
 load("Analisi_multitemporale.R")
 
 cover <- c("Agriculture","Forest")
 before <- c(10.9,89.1)
 after <- c(48.2,51.8)
 
-#visualizzo l'output
+#visualizzo l'output AL
 output <- data.frame(cover,before,after)
 output
 
-#richiamo libreria
+#richiamo libreria AL
 library(ggplot2)
 
-#sulle ordinate avremo il valore della prima
+#sulle ordinate avremo il valore della prima AL
 p1<-ggplot(output, aes(x=cover, y=before, color=cover)) + geom_bar(stat="identity", fill="white")
 
-#plot del dopo deforestazione, sempre sulle y avremo la percentuale del dopo
+#plot del dopo deforestazione, sempre sulle y avremo la percentuale del dopo AL
 p2<-ggplot(output, aes(x=cover, y=after, color=cover)) + geom_bar(stat="identity", fill="white")
 
-#questa funzione è in grado di prendere diversi plot e visualizzarli insieme all'interno di uno stesso grafico
+#questa funzione è in grado di prendere diversi plot e visualizzarli insieme all'interno di uno stesso grafico AL
 grid.arrange(p1, p2, nrow = 1)
 
 
@@ -1364,7 +1362,7 @@ ice2019
 ice2020
        
 # Creo una colorRampPalette 
-cl <- colorRampPalette(c("light blue", "blue","dark blue"))(100)
+cl <- colorRampPalette(c("light blue","blue","dark blue","white","white","brown"))(100)
                        
 # Creo un plot delle 4 immagini insieme grazie alla funzione par
 par(mfrow=c(2,2))
@@ -1383,4 +1381,24 @@ plot(ice.multitemp, col=cl)
 difice = ice.multitemp$ice2020 - ice.multitemp$ice2017
 cldiff <- colorRampPalette (c("blue","white","red"))(100)
 plot(difice, col=cldiff)
-
+       
+       
+       
+       
+library(raster)
+library(ncdf4)
+setwd("~/Documents/esame")
+ndvi2017<-raster("c_gls_NDVI300_201705210000_GLOBE_PROBAV_V1.0.1.nc")
+ndvi2018<-raster("c_gls_NDVI300_201806010000_GLOBE_PROBAV_V1.0.1.nc")
+ndvi2019<-raster("c_gls_NDVI300_201905210000_GLOBE_PROBAV_V1.0.1.nc")
+ndvi2020<-raster("c_gls_NDVI300_202006010000_GLOBE_PROBAV_V1.0.1.nc")
+par(mfrow=c(2,2))
+plot(ndvi2017,main="Anno 2017")
+plot(ndvi2018,main="Anno 2018")
+plot(ndvi2019,main="Anno 2019")
+plot(ndvi2020, main="Anno 2020")
+library(RStoolbox)
+h2017 <- unsuperClass(ndvi2017,nClasses=2)
+plot(h2017$Rplot)
+h2020 <- unsuperClass(ndvi2020,nClasses=2)
+plot(h2020$Rplot)
