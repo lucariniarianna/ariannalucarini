@@ -217,7 +217,7 @@ plot(foram, carbon, col="green", cex=2,pch=19)
 #scarichiamo un nuovo pacchetto dati riguardanti il covid19
 
 #Dati dall'esterno : covid19
-#Bisogna stabilire da quale cartella occorre prendere i dati facendo files -> scegli cartella -> importa dati
+#Bisogna stabilire da quale cartella occorre prendere i dati facendo files -> scegli cartella -> importa dati AL
 
 #impostiamo una working directory AL
 setwd("~/Documents/lab")
@@ -372,7 +372,7 @@ library(rgdal) # per le coastlines AL
 #imposto la working directory AL
 setwd("~/Documents/lab")
 
-#sarico dati AL
+#scarico dati AL
 load("point_pattern.RData")
 
 #chiudo grafico AL
@@ -439,7 +439,7 @@ summary(Tesi)
 #y varia da 43.91 a 43.94
 #per la figura aumentiamo un po' i margini
 
-#point patterns : x longitudine, y latitudine
+#point patterns : x longitudine, y latitudine AL
 Tesippp <- ppp(Longitude, Latitude, c(12.41,12.47),c(43.9,43.95))
 
 #density
@@ -498,7 +498,7 @@ points(Tesippp,col="green")
 ### 4. CODICE R PER ANALISI DI IMMAGINI SATELLITARI - telerilevamento 07/04/20
 
 # scarico e/o richiamo i pacchetti che verranno utilizzati AL
-install.packages("raster") # il pacchetto raster ci permette dileggere, scrivere, manipolare, analizzare e modellare dati 
+install.packages("raster") # il pacchetto raster ci permette di leggere, scrivere, manipolare, analizzare e modellare dati 
 #spaziali su una griglia AL
 #richiamo pacchetto AL
 library(raster)
@@ -513,7 +513,7 @@ setwd("~/Documents/lab")
 p224r63_2011 <- brick("p224r63_2011_masked.grd")
 
 #plot della nostra immagine satellitare iniziale per estrarre dati base (riflettanze ecc...) AL
-plot(p224r63_2011) # si nota un paesaggio in varie bande (b1...b7 ognuno con una lunghezza d'onda diversa)
+plot(p224r63_2011) # si nota un paesaggio in varie bande (b1...b7 ognuno con una lunghezza d'onda diversa) AL
 
 #Day 2 - 08/04/20
 
@@ -592,7 +592,7 @@ plotRGB(p224r63_2011,r=3,g=2,b=1)
 #stretch serve per aumentare la gamma dei colori, in questo caso usiamo lo strech lineare AL
 plotRGB(p224r63_2011,r=3,g=2,b=1,stretch="Lin")
 
-#utilizziamo il nir per distinguere meglio la vegetazione (Dobbiamo però metterlo al posto di un altro perchè si possono usare soll 3 alla volta) AL
+#utilizziamo il nir per distinguere meglio la vegetazione (Dobbiamo però metterlo al posto di un altro perchè si possono usare solo 3 alla volta) AL
 plotRGB(p224r63_2011,r=4,g=3,b=2,stretch="Lin") #false colours
 
 #salvare un'immagine in pdf o in #png("primografico.png") i grafici sono meno pesanti AL
@@ -635,7 +635,7 @@ p224r63_1988 <- brick("p224r63_1988_masked.grd")
 plot(p224r63_1988)
 
 #plot di tutte e 4 le bande AL
-#par ci peremette di utilizzare a blocchi la nostra finestra
+#par ci peremette di utilizzare a blocchi la nostra finestra AL
 par(mfrow=c(2,2))
 
 #blue
@@ -660,7 +660,7 @@ plotRGB(p224r63_1988, r=3, g=2, b=1, stretch="Lin")
 #Exercise : plot the image the nir on the "r" componment in the RGB space
 plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="Lin")
 
-#Plot dell'immagine 1988 e 2011 per notare le differenze
+#Plot dell'immagine 1988 e 2011 per notare le differenze AL
 par(mfrow=c(2,1))
 plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
@@ -680,7 +680,7 @@ dev.off()
 #Malata = RED alto AL
 
 #dvi1988=nir1988-red1988 AL
-dvi1988 <- p224r63_1988$B4_sre-p224r63_1988$B3_sre  #$ serve per legare due oggetti
+dvi1988 <- p224r63_1988$B4_sre-p224r63_1988$B3_sre  #$ serve per legare due oggetti AL
 # vediamo il plot AL
 plot(dvi1988)
 
@@ -823,7 +823,7 @@ p224r63_2011 <- brick("p224r63_2011_masked.grd")
 plotRGB(p224r63_2011,r=4,g=3,b=2,stretch="Lin")
 
 #con questa funzione è possibile far leggere le immagini al programma AL
-defor1 <- brick("defor1_.jpg") # .png for Mac
+defor1 <- brick("defor1_.jpg") # .png se si utilizza il Mac AL
 defor2 <- brick("defor2_.jpg")
 
 #guardo le caratteristiche dell'immagine AL
@@ -979,16 +979,16 @@ grid.arrange(grafico1,grafico2,nrow=1)
 
 setwd("~/Documents/lab")
 
-#richiamare library
+#richiamare library AL
 library(raster)
 
-#richiamo immagini in formato png perchè utilizzo mac
+#richiamo immagini in formato png perchè utilizzo mac AL
 EN01 <- raster("EN_0001.png")
 
-#visualizzo il plot
+#visualizzo il plot AL
 plot(EN01)
 
-#per importare tutte le immaggini posso utilizzare o stack che le importa tutte dentro EN oppure brick per caricarle una alla volta
+#per importare tutte le immaggini posso utilizzare o stack che le importa tutte dentro EN oppure brick per caricarle una alla volta AL
 
 # EN <- stack(c("EN_0001.png","EN_0002.png","EN_0003.png","EN_0004.png","EN_0005.png","EN_0006.png","EN_0007.png","EN_0008.png","EN_0009.png","EN_0010.png","EN_0011.png","EN_0012.png","EN_0013.png"))
 
@@ -1010,7 +1010,7 @@ plot(EN01)
 # brick
 # writeRaster(EN01[[3]], "snow2000r.tif")
 
-#utilizzo raster per importare le immagini
+#utilizzo raster per importare le immagini AL
 EN01 <- raster("EN_0001.png")
 EN02 <- raster("EN_0002.png")
 EN03 <- raster("EN_0003.png")
@@ -1025,25 +1025,25 @@ EN11 <- raster("EN_0011.png")
 EN12 <- raster("EN_0012.png")
 EN13 <- raster("EN_0013.png")
 
-#creo la mia color ramp palette
+#creo la mia color ramp palette AL
 cl <- colorRampPalette(c('red','orange','yellow'))(100) # 
 
 par(mfrow=c(1,2))
 plot(EN01, col=cl)
 plot(EN13, col=cl)
 
-# chiudo la finestra
+# chiudo la finestra AL
 dev.off()
-#il monossido di azoto è andato diminuendo
+#il monossido di azoto è andato diminuendo AL
 
-#vedo la differenza tra EN13 e EN01
+#vedo la differenza tra EN13 e EN01 AL
 difno2 <- EN13-EN01
 cldif <- colorRampPalette(c('blue','black','yellow'))(100) # 
 plot(difno2, col=cldif)
 
 cl <- colorRampPalette(c('red','orange','yellow'))(100) # 
 
-#plot delle immagini
+#plot delle immagini AL
 plot(EN01, col=cl)
 plot(EN02, col=cl)
 plot(EN03, col=cl)
@@ -1058,7 +1058,7 @@ plot(EN11, col=cl)
 plot(EN12, col=cl)
 plot(EN13, col=cl)
 
-#plot di tutte le immagini insieme
+#plot di tutte le immagini insieme AL
 par(mfrow=c(4,4))
 plot(EN01, col=cl)
 plot(EN02, col=cl)
@@ -1074,12 +1074,12 @@ plot(EN11, col=cl)
 plot(EN12, col=cl)
 plot(EN13, col=cl)
 
-# make a stack
+# faccio uno stack di tutte le immagini AL
 EN <- stack(EN01,EN02,EN03,EN04,EN05,EN06,EN07,EN08,EN09,EN10,EN11,EN12,EN13)
 
 plot(EN,col=cl)
 
-# RGB
+# Plot RGB
 plotRGB(EN, red=EN13, green=EN13, blue=EN01, stretch="lin")
 
 boxplot(EN,horizontal=T,axes=T,outline=F)
@@ -1088,21 +1088,21 @@ boxplot(EN,horizontal=T,axes=T,outline=F)
 
 ###8. R_code_snow.r
 
-#set working directory
+#set working directory AL
 setwd("~/Documents/lab")
 
-# scarico libreria che permette di vedere i dati con estensione .nc
+# scarico libreria che permette di vedere i dati con estensione .nc AL
 install.packages ("ndcf4")
 
-#richiamo librerie
+#richiamo librerie AL
 library(ncdf4)
 library(raster)
 
-#importo immagine .nc 
-#raster = importa un singolo livello
-#brick = importa vari livelli -> es. imm. satellitari a diverse bande
+#importo immagine .nc AL 
+#raster = importa un singolo livello AL
+#brick = importa vari livelli -> es. imm. satellitari a diverse bande AL
 
-#dal sito copernicus scarico i dati interessati e li importo su R
+#dal sito copernicus scarico i dati interessati e li importo su R AL
 
 snowmay <- raster("c_gls_SCE500_202005180000_CEURO_MODIS_V1.0.1.nc")
 
@@ -1112,12 +1112,12 @@ cl <- colorRampPalette(c('darkblue','blue','light blue'))(100)
 plot(snowmay,col=cl)
 
 #import snow data
-#setto la nuova working directory
+#setto la nuova working directory AL
 setwd("~/Documents/lab/snow")
 
-#salvo il raster nella list
+#salvo il raster nella list AL
 rlist <- list.files(pattern=".tif")
-list_rast <- lapply(rlist, raster) # lapply applica una funzione di riferimento (es. raster) all'intera lista di file 
+list_rast <- lapply(rlist, raster) # lapply applica una funzione di riferimento (es. raster) all'intera lista di file AL 
 snow.multitemp <- stack(list_rast)
 plot(snow.multitemp, col=cl)
 
@@ -1127,47 +1127,47 @@ plot(snow.multitemp$snow2020r, col=cl,zlim =c(0,250))
 
 dev.off
 
-#differenza fra le due mappe
+#differenza fra le due mappe AL
 difsnow = snow.multitemp$snow2020r - snow.multitemp$snow2000r
 cldiff <- colorRampPalette (c("blue","white","red"))(100)
 plot(difsnow, col=cldiff)
 
-#faccio una previsione multitemporale nel 2025 scaricando il pacchetto prediction.r da IOL
+#faccio una previsione multitemporale nel 2025 scaricando il pacchetto prediction.r da IOL AL
 source("prediction.r")
 
 predicted.snow.2025.norm <- raster("predicted.snow.2025.norm.tif")
 
-plot(predicted.snow.2025.norm) # previsione della neve al 2025 fatta secondo una previsione lineare
+plot(predicted.snow.2025.norm) # previsione della neve al 2025 fatta secondo una previsione lineare AL
 
 #############################################################################################################################
 
 ### 9. R_code_ patches
 
-#Settaggio working directory
+#Settaggio working directory AL
 setwd("~/Documents/lab")
 
-#installo e richiamo pacchetto
+#installo e richiamo pacchetto AL
 install.packages("igraph")
 library(igraph)
 
-#richiamo libreria raster
+#richiamo libreria raster AL
 library(raster)
 
-#carico dati
+#carico dati AL
 d1c <- raster("d1c.tif")
 d2c <- raster("d2c.tif")
 
-#metto più plot all'interno dello stesso grafico
+#metto più plot all'interno dello stesso grafico AL
 par(mfrow=c(1,2))
 #faccio il plot
-cl <- colorRampPalette(c("black","green"))(100)  #la foresta è la classe n.2 colorata di verde
+cl <- colorRampPalette(c("black","green"))(100)  #la foresta è la classe n.2 colorata di verde AL
 plot(d1c, col=cl)
 plot(d2c, col =cl)
 #forest : class 2 ; agricolture : class 1
 
-#cbind serve per annullare certi valori
-#reclassify serve per riclassificare l'immagine raster ridonando certi valori
-d1c.for <- reclassify(d1c,cbind(1,NA)) #elimino tutto ciò che non è foresta
+#cbind serve per annullare certi valori AL
+#reclassify serve per riclassificare l'immagine raster ridonando certi valori AL
+d1c.for <- reclassify(d1c,cbind(1,NA)) #elimino tutto ciò che non è foresta AL
 par(mfrow=c(1,2))
 plot(d1c, col=cl)
 plot(d1c.for, col =cl)
@@ -1194,13 +1194,13 @@ dic.for.patches
 #max patches d1=301 
 #max patches d2=1212
 
-#plot results:
+# risultati AL
 time <- c("Before deforestation", "After deforestation")
 npatches <- c(301,1212)
 output <- data.frame(time,npatches)
 attach(output)
 
-#plot finale
+#plot finale AL
 library(ggplot)
 ggplot(output,aes(x=time, y=npatches, color="red") + geom_bar(stat="identity",fill="white")
        
@@ -1208,136 +1208,136 @@ ggplot(output,aes(x=time, y=npatches, color="red") + geom_bar(stat="identity",fi
        
 ### 10. R code crop - exam simulation
 
-#set della working directory
+#set della working directory AL
 setwd("~/Documents/lab/snow")
        
-#carico libreria
+#carico libreria AL
 library(raster)
        
 #Exercise : upload the whol snow set
-rlist <- list.files(pattern="snow") #prendiamo tutti i file che cominciano per "snow"
+rlist <- list.files(pattern="snow") #prendiamo tutti i file che cominciano per "snow" AL
 rlist
        
 list_rast <- lapply(rlist, raster)
 sow.multitemp <- stack(list_rast)
 
-#per fare il plot scelgo prima la color ramp palette
+#per fare il plot scelgo prima la color ramp palette AL
 clb <- colorRampPalette(c('dark blue','blue','light blue'))(100)
 plot(snow.multitemp,col=clb)
        
-#creo uno zoom sull'immagine della zona da me interessata
-snow.multitemp #controllo prima i miei dati per intero
+#creo uno zoom sull'immagine della zona da me interessata AL
+snow.multitemp #controllo prima i miei dati per intero AL
 plot(snow.multitemp$snow2010r, col=clb)
        
-#prima di tutto devo definire l'estenzione
-#es. ci sono due modi per definire le estenzioni: 
-#1. fare rettangolo dell'area interessata
+#prima di tutto devo definire l'estenzione AL
+#es. ci sono due modi per definire le estenzioni:  AL
+#1. fare rettangolo dell'area interessata AL
      plot(snow.multitemp$snow2010r, col=clb)
-     zoom(snow.multitemp$snow2010r, ext=drawExtent()) #una volta lanciata la funzione
-     #partiamo in alto a sinistra, teniamo tenuto, una volta finito il rettangolo dobbiamo rilasciare e premere una seconda volta
+     zoom(snow.multitemp$snow2010r, ext=drawExtent()) #una volta lanciata la funzione AL
+     #partiamo in alto a sinistra, teniamo tenuto, una volta finito il rettangolo dobbiamo rilasciare e premere una seconda volta AL
        
-#2. definire le nuove cordinate
+#2. definire le nuove cordinate AL
      ext <- c(6,20,35,50)
 zoom(snow.multitemp$snow2010r, ext=extension) 
        
 # crop
 extension <- c(6, 20 , 35 , 50)
-snow2010r.italy <- crop (snow.multitemp$snow2010r, extension) #tramite la funzione crop creo direttamente un ritaglio della mia area interessata
-#con la funzione crop non va dichiarata l'extension
+snow2010r.italy <- crop (snow.multitemp$snow2010r, extension) #tramite la funzione crop creo direttamente un ritaglio della mia area interessata AL
+#con la funzione crop non va dichiarata l'extension AL
 plot(snow2010.r.italy, col=clb)
        
 #Exercise : crop the Italy extent on the whole stack of snow layers
 snow.multitemp.italy <- crop(snow.multitemp, extension)
        
-#visualizzo ora la mappa finale
+#visualizzo ora la mappa finale AL
 plot(snow.multitemp.italy, col= clb)
        
-snowmultitemp.italy #vediamo i dati per scegliere i valori minimi e massimi
-#facciamo variare i range per cambiare le legende e metterle tutte uguali
-plot(snow.multitemp.italy, col=clb, zlim=c(20,200)) #zlim fa si che si definisca il limite della legenda
-#boxplot per vedere come si comportano le variabili
+snowmultitemp.italy #vediamo i dati per scegliere i valori minimi e massimi AL
+#facciamo variare i range per cambiare le legende e metterle tutte uguali AL
+plot(snow.multitemp.italy, col=clb, zlim=c(20,200)) #zlim fa si che si definisca il limite della legenda AL
+#boxplot per vedere come si comportano le variabili AL
 boxplot(snow.multitemp.italy, horizontal=T,outline=F)
-#c'è meno copertura nevosa e si envince dal valore massimo della copertura nevosa che è molto alto nella parte del 2000 e più basso nella parte del 2020
+#c'è meno copertura nevosa e si envince dal valore massimo della copertura nevosa che è molto alto nella parte del 2000 e più basso nella parte del 2020 AL
 
 #############################################################################################################################
 
 ### 11. Species Distribuion Modeling
        
-#scarico il pacchetto necessario
+#scarico il pacchetto necessario AL
 install.packages("sdm")
 library(sdm)
        
-#richiamo librerie necessarie
+#richiamo librerie necessarie AL
 library(raster)
-library(rgdal) #libreria capace di gestire meglio dati raster e vettoriali (file vettoriali = coordinate x,y e quindi dei punti)
+library(rgdal) #libreria capace di gestire meglio dati raster e vettoriali (file vettoriali = coordinate x,y e quindi dei punti) AL
 
-#importo e utilizzo i file che trovo dentro il pacchetto sdm       
+#importo e utilizzo i file che trovo dentro il pacchetto sdm   AL    
 file <- system.file("external/species.shp", package="sdm")
        
-#la funzione shapefile (della libreria rgdal) serve per caricare la parte grafica e relativa ai punti    
+#la funzione shapefile (della libreria rgdal) serve per caricare la parte grafica e relativa ai punti  AL  
 species <- shapefile(file)
        
-#guardo com'è fatto il mio file       
+#guardo com'è fatto il mio file AL       
 species       
-#abbiamo una sola variabile: occurrence -> ovvero se c'è o meno la specie
+#abbiamo una sola variabile: occurrence -> ovvero se c'è o meno la specie AL
        
-#per ogni punto spaziale abbiamo un dato che ci dice se è presente o meno la data specie      
+#per ogni punto spaziale abbiamo un dato che ci dice se è presente o meno la data specie AL     
 species$Occurrence
        
-#faccio un plot di species      
+#faccio un plot di species      AL
 plot(species)
        
 #visualizzo in modo differente la presenza/assenza della specie utilizzando la funzione plot ma prendendo il dataset species e all'interno del
-#dataset che sono uguali a 1 mettiamo il colore blu e il point characters 16.       
+#dataset che sono uguali a 1 mettiamo il colore blu e il point characters 16.    AL   
 plot(species[species$Occurrence == 1,],col='blue',pch=16)
        
-#ora aggiungiamo anche i punti che erano uguali a zero quindi la funzione cisto che dobbiamo aggiungere sarà points
+#ora aggiungiamo anche i punti che erano uguali a zero quindi la funzione cisto che dobbiamo aggiungere sarà points AL
 points(species[species$Occurrence == 0,],col='red',pch=16)       
        
-#ora prendiamo in considerazione anche le variabili ambientali (predittori)     
+#ora prendiamo in considerazione anche le variabili ambientali (predittori)     AL
 path <- system.file("external", package="sdm")
        
-#faccio la lista dei file nel percorso appena definito 
+#faccio la lista dei file nel percorso appena definito AL
 lst <- list.files(path=path,pattern="asc",full.names=T)
 lst
        
-#faccio uno stack delle variabili (4)
+#faccio uno stack delle variabili (4) AL
 preds <- stack(lst)      
        
-#scelgo un colorramppalette
+#scelgo un colorramppalette AL
 cl <- colorRampPalette(c('blue','orange','red','yellow')) (100)
        
-#plot finale con le 4 variabili       
+#plot finale con le 4 variabili   AL    
 plot(preds, col=cl)  
        
-#faccio un plot della variabile elevation con i punti dove è stata avvistata la specie       
+#faccio un plot della variabile elevation con i punti dove è stata avvistata la specie   AL    
 plot(preds$elevation, col=cl)
-points(species[species$Occurrence == 1,], pch=16) #sarà una specie che non ama trovarsi in altitudini elevate
+points(species[species$Occurrence == 1,], pch=16) #sarà una specie che non ama trovarsi in altitudini elevate AL
        
-#faccio un plot della variabile temperature con i punti dove è stata avvistata la specie  
+#faccio un plot della variabile temperature con i punti dove è stata avvistata la specie  AL
 plot(preds$temperature, col=cl)
-points(species[species$Occurrence == 1,], pch=16 #sarà una specie che preferisce alte temperature   
+points(species[species$Occurrence == 1,], pch=16 #sarà una specie che preferisce alte temperature   AL
        
-#faccio un plot della variabile precipitation con i punti dove è stata avvistata la specie  
+#faccio un plot della variabile precipitation con i punti dove è stata avvistata la specie  AL
 plot(preds$precipitation, col=cl)
-points(species[species$Occurrence == 1,], pch=16 #sarà una specie che preferisce situazioni intermedie   
+points(species[species$Occurrence == 1,], pch=16 #sarà una specie che preferisce situazioni intermedie   AL
        
-#faccio un plot della variabile vegetation con i punti dove è stata avvistata la specie   
+#faccio un plot della variabile vegetation con i punti dove è stata avvistata la specie   AL
 plot(preds$vegetation, col=cl)
-points(species[species$Occurrence == 1,], pch=16 #sarà una specie non particolarmente eliofila
+points(species[species$Occurrence == 1,], pch=16 #sarà una specie non particolarmente eliofila AL
        
-#creo un modello lineare generalizzato     
+#creo un modello lineare generalizzato AL    
 d <- sdmData(train=species, predictors=preds)
 d
        
-#Creo il modello m1 (per i modelli l'uguale si fa con la tilde)
+#Creo il modello m1 (per i modelli l'uguale si fa con la tilde) AL
 m1 <- sdm(Occurrence ~ elevation + precipitation + temperature + vegetation, data=d, methods='glm')
        
-#previsione di dove si troverà data specie       
+#previsione di dove si troverà data specie     AL  
 p1 <- predict(m1, newdata=preds)
 plot(p1, col=cl) 
 points(species[species$Occurrence == 1,], pch=16 #abbiamo preso le singole variabili, i singoli predittori, 
-#le abbiamo messe in un modello creando la mappa previsionale della distribuzione della specie rispetto le variabili
+#le abbiamo messe in un modello creando la mappa previsionale della distribuzione della specie rispetto le variabili AL
 #############################################################################################################################
        
 ### 12. EXAM PROJECT
@@ -1397,6 +1397,8 @@ plot(ndvi2017,main="Anno 2017")
 plot(ndvi2018,main="Anno 2018")
 plot(ndvi2019,main="Anno 2019")
 plot(ndvi2020, main="Anno 2020")
+
+difndvi <- ndvi2020-ndvi2017
 library(RStoolbox)
 h2017 <- unsuperClass(ndvi2017,nClasses=2)
 plot(h2017$Rplot)
