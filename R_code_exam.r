@@ -1347,57 +1347,28 @@ library(raster)
 library(ncdf4)
  
 #Imposto la set working directory
-setwd("~/Documents/EXAM")
-
-#Importo e attribuisco un nome alle immagini tramite la funzione raster       
-ice2017 <- raster("c_gls_LIE250_201706050000_Baltic_MODIS_V1.1.1.nc")
-ice2018 <- raster("c_gls_LIE250_201806050000_Baltic_MODIS_V1.1.1.nc")
-ice2019 <- raster("c_gls_LIE250_201906050000_Baltic_MODIS_V1.1.1.nc")
-ice2020 <- raster("c_gls_LIE250_202006050000_Baltic_MODIS_V1.1.1.nc")
-
-# Supervisiono i dati scaricati
-ice2017
-ice2018
-ice2019
-ice2020
-       
-# Creo una colorRampPalette 
-cl <- colorRampPalette(c("light blue","blue","dark blue","white","white","brown"))(100)
-                       
-# Creo un plot delle 4 immagini insieme grazie alla funzione par
-par(mfrow=c(2,2))
-plot(ice2017, col=cl,main="2017")
-plot(ice2018, col=cl,main="2018")
-plot(ice2019, col=cl, main="2019")
-plot(ice2020, col=cl, main="2020")
-                       
-#Oppure faccio una rlist e con uno stack importo tutte le immagini
-rlist <- list.files(pattern = ".nc")
-list_rast <- lapply(rlist, raster)
-ice.multitemp <- stack(list_rast)
-plot(ice.multitemp, col=cl)
-       
-#Faccio una differenza tra il 2020 e il 2017
-difice = ice.multitemp$ice2020 - ice.multitemp$ice2017
-cldiff <- colorRampPalette (c("blue","white","red"))(100)
-plot(difice, col=cldiff)
-       
-       
-       
-       
-library(raster)
-library(ncdf4)
 setwd("~/Documents/esame")
+
+#Importo e attribuisco un nome alle immagini tramite la funzione raster   
 ndvi2017<-raster("c_gls_NDVI300_201705210000_GLOBE_PROBAV_V1.0.1.nc")
 ndvi2018<-raster("c_gls_NDVI300_201806010000_GLOBE_PROBAV_V1.0.1.nc")
 ndvi2019<-raster("c_gls_NDVI300_201905210000_GLOBE_PROBAV_V1.0.1.nc")
 ndvi2020<-raster("c_gls_NDVI300_202006010000_GLOBE_PROBAV_V1.0.1.nc")
-par(mfrow=c(2,2))
-plot(ndvi2017,main="Anno 2017")
-plot(ndvi2018,main="Anno 2018")
-plot(ndvi2019,main="Anno 2019")
-plot(ndvi2020, main="Anno 2020")
 
+# Creo un plot delle 4 immagini insieme grazie alla funzione par
+par(mfrow=c(2,2))
+plot(ndvi2017,main="Anno 2017",zlim=c(-0.08,0.92))
+plot(ndvi2018,main="Anno 2018",zlim=c(-0.08,0.92))
+plot(ndvi2019,main="Anno 2019",zlim=c(-0.08,0.92))
+plot(ndvi2020, main="Anno 2020",zlim=c(-0.08,0.92))
+
+#Oppure faccio una rlist e con uno stack importo tutte le immagini
+rlist <- list.files(pattern = ".nc")
+list_rast <- lapply(rlist, raster)
+ndvi.multitemp <- stack(list_rast)
+
+       
+#Faccio una differenza tra il 2020 e il 2017
 difndvi <- ndvi2020-ndvi2017
 library(RStoolbox)
 h2017 <- unsuperClass(ndvi2017,nClasses=2)
