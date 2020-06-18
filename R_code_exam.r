@@ -1345,6 +1345,8 @@ points(species[species$Occurrence == 1,], pch=16 #abbiamo preso le singole varia
 #Scarichiamo le librerie necessarie
 library(raster)
 library(ncdf4)
+library(RStoolbox)
+library(rgdal)
  
 #Imposto la set working directory
 setwd("~/Documents/esame")
@@ -1369,10 +1371,20 @@ ndvi.multitemp <- stack(list_rast)
 
        
 #Faccio una differenza tra il 2020 e il 2017
+cl <- colorRampPalette(c("white","yellow","green","brown"))(100)
 difndvi <- ndvi2020-ndvi2017
-plot(difndvi)
-library(RStoolbox)
+plot(difndvi,col= cl, zlim=c(0,1))
+       
 h2017 <- unsuperClass(ndvi2017,nClasses=2)
-plot(h2017$Rplot)
+plot(h2017$map,col=cl, main= "Anno 2017")
 h2020 <- unsuperClass(ndvi2020,nClasses=2)
-plot(h2020$Rplot)
+plot(h2020$map, col=cl, main ="Anno 2020")
+       
+       
+par(mfrow=c(1,1))
+plot(difndvi,col= cl, zlim=c(0,1))
+plot(coastlines,add=T)
+setwd("~/Documents/esame/coastlines-2")
+coastlines <- readOGR ("ne_10m_coastline.shp")
+
+
