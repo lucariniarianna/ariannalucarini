@@ -1370,6 +1370,7 @@ ndvi.multitemp <- stack(list_rast)
        
 #Faccio una differenza tra il 2020 e il 2017
 difndvi <- ndvi2020-ndvi2017
+plot(difndvi)
 library(RStoolbox)
 h2017 <- unsuperClass(ndvi2017,nClasses=2)
 plot(h2017$Rplot)
