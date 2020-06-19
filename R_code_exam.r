@@ -1374,12 +1374,7 @@ ndvi.multitemp <- stack(list_rast)
 cl <- colorRampPalette(c("white","yellow","green","brown"))(100)
 difndvi <- ndvi2020-ndvi2017
 plot(difndvi,col= cl, zlim=c(0,1))
-       
-h2017 <- unsuperClass(ndvi2017,nClasses=2)
-plot(h2017$map,col=cl, main= "Anno 2017")
-h2020 <- unsuperClass(ndvi2020,nClasses=2)
-plot(h2020$map, col=cl, main ="Anno 2020")
-       
+
        
 par(mfrow=c(1,1))
 plot(difndvi,col= cl, zlim=c(0,1))
@@ -1387,4 +1382,61 @@ plot(coastlines,add=T)
 setwd("~/Documents/esame/coastlines-2")
 coastlines <- readOGR ("ne_10m_coastline.shp")
 
-
+ext <- c(6,20,35,50)​
+zoom(ndvi2017, ext, zlim=c(-0.08,0.92))​
+zoom(ndvi2018, ext, zlim=c(-0.08,0.92))​
+zoom(ndvi2019, ext, zlim=c(-0.08,0.92))​
+zoom(ndvi2020, ext, zlim=c(-0.08,0.92))​
+       ​
+italy17<- crop(ndvi2017, ext, zlim=c(-0.08,0.92))​
+italy18 <- crop(ndvi2018, ext, zlim=c(-0.08,0.92))​
+italy19 <- crop(ndvi2019, ext, zlim=c(-0.08,0.92))​
+italy20 <- crop(ndvi2020, ext, zlim=c(-0.08,0.92))​
+       ​
+par(mfrow=c(2,2))​
+plot(italy17,main = "Anno 2017",zlim=c(-0.08,0.92))​
+plot(italy18,main ="Anno 2018",zlim=c(-0.08,0.92))​
+plot(italy19,main = "Anno 2019",zlim=c(-0.08,0.92))​
+plot(italy20,main = "Anno 2020",zlim=c(-0.08,0.92))​
+       
+       
+2017itndvi <- unsuperClass(italy17,nClasses = 2)​
+2017itndvi <- unsuperClass(italy20,nClasses = 2)​
+par(mfrow=c(1,2))​
+plot(2017itndvi$map,main = "Anno 2017")​
+plot(2020itndvi$map,main = "Anno 2020")  
+       
+freq(2017itndvi$map)​
+ value    count​
+[1,]     1 19284307​
+[2,]     2  4423853​
+tot2017it <- 19284307+4423853​
+       ​
+freq(2020itndvi$map)​
+     value    count​
+[1,]     1 18574433​
+[2,]     2  5133727​
+tot2020it <- 18574433+5133727​
+​
+Percent2017it <- freq(2017itndvi$map)*100/tot2017itm​
+percent2020it <- freq(2020itndvi$map)*100/tot2020itm​
+​
+cover <- c("Land","Forest")​
+before <- c(19284307,4423853)​
+after <- c(18574433,5133727)​
+​
+outputit<- data.frame(cover,before,after)​
+outputit​
+   cover   before    after​
+1   Land 19284307 18574433​
+2 Forest  4423853  5133727      
+       
+       
+library(ggplot2)​
+p1 <- ggplot(outputit, aes(x=cover,y=before,color=cover))+geom_bar(stat = "identity",fill="white")​
+plot(p1)​
+p2 <- ggplot(outputit, aes(x=cover,y=after,color=cover))+geom_bar(stat = "identity",fill="white")​
+plot(p2)​
+​
+library(gridExtra)​
+grid.arrange(p1,p2,nrow=1)
