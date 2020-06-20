@@ -16,6 +16,8 @@
 #Copernicus Website
 https://land.copernicus.vgt.vito.be/PDF/portal/Application.html
 
+#############################################################################################################################
+
 ### 1. R code first
 
 #Prima di tutto occorre installare la nuova libreria, attraverso i pacchetti, e richiamarla (ogni volta che vogliamo richiamare
@@ -204,7 +206,7 @@ bubble(meuse,"zinc")
 #Exercise: bubble del rame colorato di rosso
 bubble (meuse,"copper", col="red")
 
-#Creiamo un nuovo oggetto contenente dei nostri dati
+#Creiamo un nuovo oggetto contenente dei nostri dati AL
 #formaminifer (dati presi da sofia), carbon capture (dati presi da marco)
 
 #tramite "<-" diamo un nome al nostro oggetto AL 
@@ -214,7 +216,7 @@ carbon <- c(5,15,30,70,85,99)
 #plottiamo i dati per vedere se i dati sono +o- relazionati tra loro AL
 plot(foram, carbon, col="green", cex=2,pch=19)
 
-#scarichiamo un nuovo pacchetto dati riguardanti il covid19
+### Scarichiamo un nuovo pacchetto dati riguardanti il covid19
 
 #Dati dall'esterno : covid19
 #Bisogna stabilire da quale cartella occorre prendere i dati facendo files -> scegli cartella -> importa dati AL
@@ -379,8 +381,7 @@ load("point_pattern.RData")
 ls()
 
 cl5 <- colorRampPalette(c('cyan', 'purple', 'red')) (200) 
-plot(d, col=cl5, main="
-")
+plot(d, col=cl5, main="density")
 points(covids)
 coastlines <- readOGR("ne_10m_coastline.shp")
 plot(coastlines, add=T)
@@ -410,7 +411,7 @@ coastlines <- readOGR("ne_10m_coastline.shp")
 plot(coastlines, add=T)
 text(covids)
 
-#mappa finale -> unico grafuco con entrambi i plot AL
+#mappa finale -> unico grafico con entrambi i plot AL
 par(mfrow=c(2,1))
 
 # densità
@@ -505,6 +506,7 @@ library(raster)
 
 #RStoolbox serve per l'elaborazione e l'analisi delle immagini di telerilevamento AL
 install.packages("RStoolbox")
+library(RStoolbox)
 
 #setto la directory AL
 setwd("~/Documents/lab")
@@ -822,7 +824,7 @@ library(RStoolbox)
 p224r63_2011 <- brick("p224r63_2011_masked.grd")
 plotRGB(p224r63_2011,r=4,g=3,b=2,stretch="Lin")
 
-#con questa funzione è possibile far leggere le immagini al programma AL
+#con questa funzione è possibile far leggere le immagini riguardanti le deforestazioni 1 e 2 al programma AL
 defor1 <- brick("defor1_.jpg") # .png se si utilizza il Mac AL
 defor2 <- brick("defor2_.jpg")
 
@@ -845,7 +847,7 @@ plotRGB(defor1, r=1, g=2, b=3, stretch="Lin")
 plotRGB(defor2, r=1, g=2, b=3, stretch="Lin")
 
 # classificazione non supervisionata, ovvero, non si specificano le classi (si utilizza la libreria RStoolbox) AL
-d1c <- unsuperClass(defor1, nClasses=2)
+d1c <- unsuperClass(defor1, nClasses=2) #scelgo due classi per vedere ciò che è foresta e ciò che non lo è
 plot(d1c$map)
 cl <- colorRampPalette(c('black','green'))(100) # 
 plot(d1c$map, col=cl)
@@ -862,7 +864,7 @@ plot(d1c$map, col=cl)
 # classificazione di defor2
 # Exercise: classificare con due classi l'immagine satellitare defor2
 d2c <- unsuperClass(defor2, nClasses=2)
-plot(d2c$map, col=cl)
+plot(d2c$map, col=cl)de
 
 # plot delle due mappe ottenute per confrontarle AL
 par(mfrow=c(2,1))
@@ -873,11 +875,13 @@ par(mfrow=c(1,2))
 plot(d1c$map, col=cl)
 plot(d2c$map, col=cl)
 
-#frequenza delle due mappe AL
+#frequenza della percentuale di foresta persa in base al numero di pixels appartenenti alla classe forest per oguna
+#delle due mappe AL
 freq(d1c$map)
 # aree aperte = 37039
 # foresta = 304253
 
+#faccio il totale di foreste e aree aperte per la prima mappa AL
 totd1 <- 37039 + 304253
 totd1
 # 341292
@@ -916,6 +920,7 @@ library(gridExtra)
 #richiamiamo il file salvato: AL
 load("Analisi_multitemporale.R")
 
+#creo un dataframe con le % AL
 cover <- c("Agriculture","Forest")
 before <- c(10.9,89.1)
 after <- c(48.2,51.8)
@@ -924,10 +929,10 @@ after <- c(48.2,51.8)
 output <- data.frame(cover,before,after)
 output
 
-#richiamo libreria AL
+#richiamo libreria per plottare i nostri valori ricavati AL
 library(ggplot2)
 
-#sulle ordinate avremo il valore della prima AL
+#plot del prima deforestazione, sulle ordinate avremo il valore della prima AL
 p1<-ggplot(output, aes(x=cover, y=before, color=cover)) + geom_bar(stat="identity", fill="white")
 
 #plot del dopo deforestazione, sempre sulle y avremo la percentuale del dopo AL
@@ -1180,7 +1185,7 @@ plot(d2c)
 d1c.for.patches <- clump(d1c.cat.for)
 d2c.for.patches <- clump (d2c.cat.for)
 
-writeRaster(d1c.for.patches, "d1c.for.patches.tif")
+writeRaster(d1c.for.patches, "d1c.for.patches.tif")#salvo i dati verso l'esterno della cartella
 writeRaste(d2c.for.patches, "d2c.for.patches.tif")
 
 #Exercise
@@ -1190,7 +1195,7 @@ plot(d1c.for.patches, col=clp)
 plot(d2c.for.patches, col=clp)
 
 
-dic.for.patches
+dic.for.patches #guardo i valori min e max (il numero di patches) AL
 #max patches d1=301 
 #max patches d2=1212
 
@@ -1376,13 +1381,16 @@ ndvi.multitemp <- stack(list_rast)
 cl <- colorRampPalette(c("white","yellow","green","brown"))(100)
 difndvi <- ndvi2020-ndvi2017
 plot(difndvi,col= cl, zlim=c(0,1))
-
-       
+      
 par(mfrow=c(1,1))
 plot(difndvi,col= cl, zlim=c(0,1))
 plot(coastlines,add=T)
 setwd("~/Documents/esame/coastlines-2")
 coastlines <- readOGR ("ne_10m_coastline.shp")
+       
+dif <- unsuperClass(difndvi,nClasses=2)
+plot(dif)
+freq(dif$map)
 
 ext <- c(6,20,35,50)​
 zoom(ndvi2017, ext, zlim=c(-0.08,0.92))
