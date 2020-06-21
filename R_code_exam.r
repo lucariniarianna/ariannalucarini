@@ -1358,8 +1358,6 @@ library(raster)
 install.packages("ncdf4")
 library(ncdf4)
        
-install.packages("RStoolbox")
-library(RStoolbox)
        
 install.packages("rgdal")
 library(rgdal)
@@ -1367,8 +1365,6 @@ library(rgdal)
 install.packages("ggplot2")
 library(ggplot2)
        
-install.packages("gridExtra")
-library(gridExtra)
  
 #Imposto la set working directory
 setwd("~/Documents/esame")
@@ -1411,71 +1407,44 @@ difndvi <- crop(difndvi, extension)
 par(mfrow=c(1,1))
 plot(difndvi,col= cl, zlim=c(0,1))
 plot(coastlines,lwd=0.2,add=T)
-      
-#Faccio la funzione freq per l'anno 2017 per vedere la somma di tutti i pixel aventi uguale valore
+       
+       
+#Faccio le frequenze per tutti quanti
 freq(ndvi17)
      value     count
 [1,]     0  78220660
 [2,]     1 361446540
 [3,]    NA 192550400
 fr17 <- freq(ndvi17)
-View(fr17)
-ndvi <- c(0)
-pixels <- c(78220660)
-ndvi2017 <- data.frame(ndvi,pixels)
-View(ndvi17)
-ggplot2017 <- ggplot(ndvi2017, aes(x=ndvi,y=pixels)) + geom_bar(stat="identity",fill="dark green")
-plot(ggplot2017)
        
-#Faccio la funzione freq per l'anno 2018 per vedere la somma di tutti i pixel aventi uguale valore
 freq(ndvi18)
-
+    value     count
+[1,]     0  79065885
+[2,]     1 363110115
+[3,]    NA 190041600
 fr18 <- freq(ndvi18)
-View(fr18)
-ndvi <- c(0)
-pixels <- c(.....
-ndvi2017 <- data.frame(ndvi,pixels)
-View(ndvi18)
-ggplot2017 <- ggplot(ndvi18, aes(x=ndvi,y=pixels)) + geom_bar(stat="identity",fill="dark green")
-plot(ggplot2017)
        
-            
-#Faccio la funzione freq per l'anno 2019 per vedere la somma di tutti i pixel aventi uguale valore
 freq(ndvi19)
-
-fr19 <- freq(ndvi19)
-View(fr19)
-ndvi <- c(0)
-pixels <- c(.....
-ndvi19 <- data.frame(ndvi,pixels)
-View(ndvi19)
-ggplot2019 <- ggplot(ndvi19, aes(x=ndvi,y=pixels)) + geom_bar(stat="identity",fill="dark green")
-plot(ggplot2019)
-            
-            
-#Faccio la funzione freq per l'anno 2020 per vedere la somma di tutti i pixel aventi uguale valore  
+     value     count
+[1,]     0  81501399
+[2,]     1 356911401
+[3,]    NA 193804800
+fr19 <- freq(ndvi19) 
+ 
 freq(ndvi20)
     value     count
 [1,]     0  79158371
 [2,]     1 359254429
 [3,]    NA 193804800
 fr20 <- freq(ndvi20)
-View(fr20)
-ndvi2 <- c(0,1).          #CAMBIA CON VALORE O
-pixels2 <- c(79158371,359254429)
-ndvi2020 <- data.frame(ndvi2,pixels2)
-View(ndvi2020)
-ggplot2020 <- ggplot(ndvi2020, aes(x=ndvi2,y=pixels2)) + geom_bar(stat="identity",fill="dark green")
-plot(ggplot2020)  
-       
-       
-library(gridExtra)
-grid.arrange(ggplot2017,ggplot2018,ggplot2019,ggplot2020,nrow=1)
-par(mfrow=c(4,1))
-boxplot(ndvi17, horizontal=T,outline=F,axes=T,main="2017")
-boxplot(ndvi18, horizontal=T,outline=F,axes=T,main="2018")
-boxplot(ndvi19, horizontal=T,outline=F,axes=T,main="2019")
-boxplot(ndvi20, horizontal=T,outline=F,axes=T,main="2020")
+     
+  
+#Creo un plot multiframe
+ndvi <- c(2017,2018,2019,2020)
+pixels <- c(78220660,79065885,81501399,79158371)
+ndvi.multitemp<- data.frame(ndvi,pixels)
+ggplot.multitemp <- ggplot(ndvi.multitemp, aes(x=ndvi,y=pixels)) + geom_bar(stat="identity",fill="dark green") + labs(title="NDVI MULTITEMPORAL",x = "NDVI",y="PIXELS)
+plot(ggplot.multitemp)
        
        
        
@@ -1493,62 +1462,45 @@ plot(italy18,main ="Anno 2018",zlim=c(-0.08,0.92))
 plot(italy19,main = "Anno 2019",zlim=c(-0.08,0.92))
 plot(italy20,main = "Anno 2020",zlim=c(-0.08,0.92))
        
-       
+#frequenze italia 
+
 freq(italy17)
      value   count
 [1,]     0  245166
 [2,]     1 2389074
 freqit17 <- freq(italy17)
-View(freqit17)
-ndvi <- c(0)
-pixels <- c(.....
-ndviit17 <- data.frame(ndvi,pixels)
-View(ndviit17)
-ggplot2019 <- ggplot(ndviit17, aes(x=ndvi,y=pixels)) + geom_bar(stat="identity",fill="dark green")
-plot(ggplotit2017)
-            
-            
-freq(italy18)
-            
-freqit18 <- freq(italy18)
-View(freqit18)
-ndvi <- c(0)
-pixels <- c(.....
-ndviit18 <- data.frame(ndvi,pixels)
-View(ndviit18)
-ggplot2018 <- ggplot(ndviit18, aes(x=ndvi,y=pixels)) + geom_bar(stat="identity",fill="dark green")
-plot(ggplotit2018)
 
+ freq(italy18)
+     value   count
+[1,]     0  201024
+[2,]     1 2433216
+freqit18 <- freq(italy18)
 
 freq(italy19)
-            
+   value   count
+[1,]     0  182273
+[2,]     1 2451967
 freqit19 <- freq(italy19)
-View(freqit19)
-ndvi <- c(0)
-pixels <- c(.....
-ndviit18 <- data.frame(ndvi,pixels)
-View(ndviit19)
-ggplot2019 <- ggplot(ndviit19, aes(x=ndvi,y=pixels)) + geom_bar(stat="identity",fill="dark green")
-plot(ggplotit2019)
 
-       
 freq(italy20)
-            
+     value   count
+[1,]     0  224491
+[2,]     1 2409749
 freqit20 <- freq(italy20)
-View(freqit20)
-ndvi <- c(0)
-pixels <- c(.....
-ndviit20 <- data.frame(ndvi,pixels)
-View(ndviit20)
-ggplot2020 <- ggplot(ndviit20, aes(x=ndvi,y=pixels)) + geom_bar(stat="identity",fill="dark green")
-plot(ggplotit2020)
-       
-       
-library(ggplot2)
-p1 <- ggplot(outputit, aes(x=cover,y=before,color=cover))+geom_bar(stat = "identity",fill="white")​
-plot(p1)
-p2 <- ggplot(outputit, aes(x=cover,y=after,color=cover))+geom_bar(stat = "identity",fill="white")​
-plot(p2)
 
-library(gridExtra)
-grid.arrange(p1,p2,nrow=1)
+
+ndvitaly <- c(2017,2018,2019,2020)
+pixelsitaly <- c(245166,201024,182273,224491)
+ndvi.multitemp.italy<- data.frame(ndvitaly,pixelsitaly)
+View(ndvi.multitemp.italy)
+ggplot.multitemp.italy<- ggplot(ndvi.multitemp.italy, aes(x=ndvitaly,y=pixelsitaly)) + geom_bar(stat="identity",fill="dark green")
+plot(ggplot.multitemp.italy)
+      
+
+
+
+
+
+
+       
+ 
