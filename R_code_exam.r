@@ -1345,14 +1345,29 @@ points(species[species$Occurrence == 1,], pch=16 #abbiamo preso le singole varia
 #le abbiamo messe in un modello creando la mappa previsionale della distribuzione della specie rispetto le variabili AL
 #############################################################################################################################
        
-### 12. EXAM PROJECT
+### 12. EXAM PROJECT 
+#Data : https://land.copernicus.vgt.vito.be/PDF/portal/Application.html about NDVI of 2017-2018-2019-2020
        
-#Scarichiamo le librerie necessarie
+#Scarico e richiamo tutte le librerie necessarie
+install.packages("sp")
+library(sp)
+       
+install.packages("raster")       
 library(raster)
+       
+install.packages("ncdf4")
 library(ncdf4)
+       
+install.packages("RStoolbox")
 library(RStoolbox)
+       
+install.packages("rgdal")
 library(rgdal)
+
+install.packages("ggplot2")
 library(ggplot2)
+       
+install.packages("gridExtra")
 library(gridExtra)
  
 #Imposto la set working directory
@@ -1363,36 +1378,44 @@ ndvi2017<-raster("c_gls_NDVI300_201705210000_GLOBE_PROBAV_V1.0.1.nc")
 ndvi2018<-raster("c_gls_NDVI300_201806010000_GLOBE_PROBAV_V1.0.1.nc")
 ndvi2019<-raster("c_gls_NDVI300_201905210000_GLOBE_PROBAV_V1.0.1.nc")
 ndvi2020<-raster("c_gls_NDVI300_202006010000_GLOBE_PROBAV_V1.0.1.nc")
+       
+#Oppure potrei usare la funzione lapply per importarle tutte insieme con uno stack 
+rlist <- list.files(pattern = ".nc")
+list_rast <- lapply(rlist, raster)
+ndvi.multitemp <- stack(list_rast)
+       
 
-# Creo un plot delle 4 immagini insieme grazie alla funzione par
+# Creo un plot delle 4 immagini insieme grazie alla funzione par, ed aggiungo titolo e zlim adeguata
 par(mfrow=c(2,2))
 plot(ndvi2017,main="Anno 2017",zlim=c(-0.08,0.92))
 plot(ndvi2018,main="Anno 2018",zlim=c(-0.08,0.92))
 plot(ndvi2019,main="Anno 2019",zlim=c(-0.08,0.92))
 plot(ndvi2020, main="Anno 2020",zlim=c(-0.08,0.92))
-
-#Oppure faccio una rlist e con uno stack importo tutte le immagini
-rlist <- list.files(pattern = ".nc")
-list_rast <- lapply(rlist, raster)
-ndvi.multitemp <- stack(list_rast)
-
        
+
 #Faccio una differenza tra il 2020 e il 2017
 cl <- colorRampPalette(c("white","yellow","green","brown"))(100)
 difndvi <- ndvi2020-ndvi2017
 plot(difndvi,col= cl, zlim=c(0,1))
-      
-par(mfrow=c(1,1))
-plot(difndvi,col= cl, zlim=c(0,1))
-plot(coastlines,add=T)
+ 
+#Aggiungo le coastlines al plot della differenza perchè ne è sprovvista
 setwd("~/Documents/esame/coastlines-2")
 coastlines <- readOGR ("ne_10m_coastline.shp")
-       
-dif <- unsuperClass(difndvi,nClasses=2)
-plot(dif)
-freq(dif$map)
+#controllo che coastlines ed difndvi abbiano la stessa estensione
+coastlines
+difndvi
+#Cambio estensione a difndvi
+extension <- c(-180, 180, -85.22194, 83.6341)
+difndvi <- crop(difndvi, extension)
+#Faccio grafico di ndvi e coastline insieme
+par(mfrow=c(1,1))
+plot(difndvi,col= cl, zlim=c(0,1))
+plot(coastlines,lwd=0.2,add=T)
+      
+#Faccio la funzione freq per vedere la somma di tutti i pixel aventi uguale valore
+freq(ndvi2017)
 
-ext <- c(6,20,35,50)​
+ext <- c(6,20,35,50)
 zoom(ndvi2017, ext, zlim=c(-0.08,0.92))
 zoom(ndvi2018, ext, zlim=c(-0.08,0.92))
 zoom(ndvi2019, ext, zlim=c(-0.08,0.92))
