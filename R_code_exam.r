@@ -1412,15 +1412,76 @@ par(mfrow=c(1,1))
 plot(difndvi,col= cl, zlim=c(0,1))
 plot(coastlines,lwd=0.2,add=T)
       
-#Faccio la funzione freq per vedere la somma di tutti i pixel aventi uguale valore
-freq(ndvi2017)
-
-ext <- c(6,20,35,50)
-zoom(ndvi2017, ext, zlim=c(-0.08,0.92))
-zoom(ndvi2018, ext, zlim=c(-0.08,0.92))
-zoom(ndvi2019, ext, zlim=c(-0.08,0.92))
-zoom(ndvi2020, ext, zlim=c(-0.08,0.92))
+#Faccio la funzione freq per l'anno 2017 per vedere la somma di tutti i pixel aventi uguale valore
+freq(ndvi17)
+     value     count
+[1,]     0  78220660
+[2,]     1 361446540
+[3,]    NA 192550400
+fr17 <- freq(ndvi17)
+View(fr17)
+ndvi <- c(0)
+pixels <- c(78220660)
+ndvi2017 <- data.frame(ndvi,pixels)
+View(ndvi17)
+ggplot2017 <- ggplot(ndvi2017, aes(x=ndvi,y=pixels)) + geom_bar(stat="identity",fill="dark green")
+plot(ggplot2017)
        
+#Faccio la funzione freq per l'anno 2018 per vedere la somma di tutti i pixel aventi uguale valore
+freq(ndvi18)
+
+fr18 <- freq(ndvi18)
+View(fr18)
+ndvi <- c(0)
+pixels <- c(.....
+ndvi2017 <- data.frame(ndvi,pixels)
+View(ndvi18)
+ggplot2017 <- ggplot(ndvi18, aes(x=ndvi,y=pixels)) + geom_bar(stat="identity",fill="dark green")
+plot(ggplot2017)
+       
+            
+#Faccio la funzione freq per l'anno 2019 per vedere la somma di tutti i pixel aventi uguale valore
+freq(ndvi19)
+
+fr19 <- freq(ndvi19)
+View(fr19)
+ndvi <- c(0)
+pixels <- c(.....
+ndvi19 <- data.frame(ndvi,pixels)
+View(ndvi19)
+ggplot2019 <- ggplot(ndvi19, aes(x=ndvi,y=pixels)) + geom_bar(stat="identity",fill="dark green")
+plot(ggplot2019)
+            
+            
+#Faccio la funzione freq per l'anno 2020 per vedere la somma di tutti i pixel aventi uguale valore  
+freq(ndvi20)
+    value     count
+[1,]     0  79158371
+[2,]     1 359254429
+[3,]    NA 193804800
+fr20 <- freq(ndvi20)
+View(fr20)
+ndvi2 <- c(0,1).          #CAMBIA CON VALORE O
+pixels2 <- c(79158371,359254429)
+ndvi2020 <- data.frame(ndvi2,pixels2)
+View(ndvi2020)
+ggplot2020 <- ggplot(ndvi2020, aes(x=ndvi2,y=pixels2)) + geom_bar(stat="identity",fill="dark green")
+plot(ggplot2020)  
+       
+       
+library(gridExtra)
+grid.arrange(ggplot2017,ggplot2018,ggplot2019,ggplot2020,nrow=1)
+par(mfrow=c(4,1))
+boxplot(ndvi17, horizontal=T,outline=F,axes=T,main="2017")
+boxplot(ndvi18, horizontal=T,outline=F,axes=T,main="2018")
+boxplot(ndvi19, horizontal=T,outline=F,axes=T,main="2019")
+boxplot(ndvi20, horizontal=T,outline=F,axes=T,main="2020")
+       
+       
+       
+       
+#Faccio una crop sull'italia
+ext <- c(6,20,35,50)
 italy17<- crop(ndvi2017, ext, zlim=c(-0.08,0.92))
 italy18 <- crop(ndvi2018, ext, zlim=c(-0.08,0.92))
 italy19 <- crop(ndvi2019, ext, zlim=c(-0.08,0.92))
@@ -1433,45 +1494,54 @@ plot(italy19,main = "Anno 2019",zlim=c(-0.08,0.92))
 plot(italy20,main = "Anno 2020",zlim=c(-0.08,0.92))
        
        
-it2017ndvi <- unsuperClass(italy17,nClasses = 2)
-it2020ndvi <- unsuperClass(italy20,nClasses = 2)
-par(mfrow=c(1,2))
-plot(it2017ndvi$map,main = "Anno 2017")
-plot(it2020ndvi$map,main = "Anno 2020")  
-       
-       
-       #OPPURE PROVO QUESTO
-it2017ndvi <- unsuperClass(italy17,nClasses = 3)
-it2020ndvi <- unsuperClass(italy20,nClasses = 3)
-par(mfrow=c(1,2))
-plot(it2017ndvi$map,main = "Anno 2017",colorRampPalette(c("white","brown","green"))(100))
-plot(it2020ndvi$map,main = "Anno 2020",colorRampPalette(c("green","brown","white"))(100))
+freq(italy17)
+     value   count
+[1,]     0  245166
+[2,]     1 2389074
+freqit17 <- freq(italy17)
+View(freqit17)
+ndvi <- c(0)
+pixels <- c(.....
+ndviit17 <- data.frame(ndvi,pixels)
+View(ndviit17)
+ggplot2019 <- ggplot(ndviit17, aes(x=ndvi,y=pixels)) + geom_bar(stat="identity",fill="dark green")
+plot(ggplotit2017)
+            
+            
+freq(italy18)
+            
+freqit18 <- freq(italy18)
+View(freqit18)
+ndvi <- c(0)
+pixels <- c(.....
+ndviit18 <- data.frame(ndvi,pixels)
+View(ndviit18)
+ggplot2018 <- ggplot(ndviit18, aes(x=ndvi,y=pixels)) + geom_bar(stat="identity",fill="dark green")
+plot(ggplotit2018)
+
+
+freq(italy19)
+            
+freqit19 <- freq(italy19)
+View(freqit19)
+ndvi <- c(0)
+pixels <- c(.....
+ndviit18 <- data.frame(ndvi,pixels)
+View(ndviit19)
+ggplot2019 <- ggplot(ndviit19, aes(x=ndvi,y=pixels)) + geom_bar(stat="identity",fill="dark green")
+plot(ggplotit2019)
 
        
-freq(it2017ndvi$map)
- value    count
-[1,]     1 19284307
-[2,]     2  4423853
-tot2017it <- 19284307+4423853
-       
-freq(it2020ndvi$map)
-     value    count
-[1,]     1 18574433
-[2,]     2  5133727
-tot2020it <- 18574433+5133727
-
-Percent2017it <- freq(it2017ndvi$map)*100/tot2017it
-percent2020it <- freq(it2020ndvi$map)*100/tot2020it
-
-cover <- c("Land","Forest")
-before <- c(19284307,4423853)
-after <- c(18574433,5133727)
-
-outputit<- data.frame(cover,before,after)
-outputit
-   cover   before    after
-1   Land 19284307 18574433
-2 Forest  4423853  5133727      
+freq(italy20)
+            
+freqit20 <- freq(italy20)
+View(freqit20)
+ndvi <- c(0)
+pixels <- c(.....
+ndviit20 <- data.frame(ndvi,pixels)
+View(ndviit20)
+ggplot2020 <- ggplot(ndviit20, aes(x=ndvi,y=pixels)) + geom_bar(stat="identity",fill="dark green")
+plot(ggplotit2020)
        
        
 library(ggplot2)
